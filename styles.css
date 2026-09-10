@@ -60,8 +60,8 @@ h3.sub{font-size:19px;font-weight:700}
 .skel-label{position:relative;z-index:1;margin:10px;padding:4px 8px;background:var(--paper);border:1px solid var(--n400);font-size:12px;font-weight:600;color:var(--n700);letter-spacing:.02em}
 @media (prefers-reduced-motion:reduce){.skel::after{animation:none;display:none}.shot img,.shot:hover img{transition:none;transform:none}}
 
-.about{display:grid;grid-template-columns:220px minmax(0,1fr);gap:44px;align-items:start}
-.about-photo{width:220px;height:317px}
+.about{display:grid;grid-template-columns:286px minmax(0,1fr);gap:44px;align-items:start}
+.about-photo{width:286px;height:317px}
 .idline{display:flex;flex-wrap:wrap;gap:28px;margin-top:30px;padding-top:20px;border-top:2px solid var(--divider);font-size:14.5px;line-height:1.7;color:var(--n700)}
 .idline b{color:var(--n900)}
 

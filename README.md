@@ -21,7 +21,7 @@ python3 -m http.server 8000   # → http://localhost:8000
 
 | 위치 | 파일 | 프레임 높이 |
 | --- | --- | --- |
-| About | `images/profile.webp` | 317px (220 폭) |
+| About | `images/profile.webp` | 317px (286 폭) |
 | Project 01 Phase 1 | `images/augmented-dice.webp` | 300px |
 | Project 01 Phase 2 | `images/tessera.webp` | 300px |
 | Project 02 | `images/daily-arrow.webp` | 288px |
