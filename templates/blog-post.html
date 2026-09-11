@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}} — 김예찬</title>
+<meta name="description" content="{{DESCRIPTION}}">
+<meta property="og:title" content="{{TITLE}} — 김예찬">
+<meta property="og:description" content="{{DESCRIPTION}}">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+<div class="shell" id="top">
+
+<header class="nav">
+<a href="../../index.html" class="nav-brand">김예찬 <span>/ Tech Notes</span></a>
+<nav class="nav-links">
+  <a href="../index.html">← 블로그 목록</a>
+  <a href="../../index.html">포트폴리오 홈</a>
+</nav>
+</header>
+
+<article class="post-article">
+<div class="post-header" style="max-width:780px;margin:0 auto 44px;">
+  <div class="post-back-nav">
+    <a href="../index.html" class="post-back-link">← 블로그 목록으로 돌아가기</a>
+  </div>
+  <div class="post-category-kicker">{{CATEGORY}}</div>
+  <h1>{{TITLE}}</h1>
+  <div class="post-meta-col">
+    <div class="post-date"><b>발행일:</b> {{DATE}}</div>
+    <div class="tags">{{TAGS}}</div>
+  </div>
+</div>
+
+<div class="prose">
+{{CONTENT}}
+</div>
+
+<div class="post-footer-box">
+  <div class="author-card">
+    <img src="../../images/profile.webp" alt="김예찬 프로필" class="author-avatar" onerror="this.style.display='none'">
+    <div class="author-info">
+      <h4>김예찬 / SW Developer · Content Planner</h4>
+      <p>방갑습니다 옛잔입니다</p>
+    </div>
+  </div>
+
+  <div class="post-nav-links">
+    {{PREV_POST}}
+    {{NEXT_POST}}
+  </div>
+</div>
+</article>
+
+<!-- Blog Dedicated Footer -->
+<footer class="blog-footer">
+  <div class="blog-footer-inner">
+    <div class="blog-footer-brand">
+      <h3>옛잔의 기술블로그</h3>
+      <p>배우고 고민한 기술적 시도와 문제 해결의 기록을 남깁니다.</p>
+    </div>
+    <div class="blog-footer-links">
+      <div class="blog-footer-col">
+        <div class="blog-footer-col-title">Navigation</div>
+        <a href="../index.html">블로그 목록</a>
+        <a href="../../index.html">포트폴리오 홈</a>
+        <a href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">맨 위로</a>
+      </div>
+      <div class="blog-footer-col">
+        <div class="blog-footer-col-title">Connect</div>
+        <a href="https://github.com/dpcks9677" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:yechann.dev@gmail.com">Email</a>
+      </div>
+    </div>
+  </div>
+  <div class="blog-footer-bottom">
+    <span>© 2026 Kim Yechan. All rights reserved.</span>
+    <a href="../index.html">← 블로그 목록으로 돌아가기</a>
+  </div>
+</footer>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-gdscript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+// Mermaid setup for diagrams
+mermaid.initialize({
+  startOnLoad: false,
+  suppressErrorRendering: true,
+  theme: 'dark',
+  themeVariables: {
+    darkMode: true,
+    background: '#1a1919',
+    mainBkg: '#222121',
+    nodeBorder: '#4a4645',
+    lineColor: '#c85a32',
+    primaryColor: '#2d2b2a',
+    primaryTextColor: '#f0eeed',
+    primaryBorderColor: '#c85a32',
+    textColor: '#e8e6e5',
+    fontSize: '16px',
+    fontFamily: 'Pretendard, -apple-system, sans-serif'
+  },
+  flowchart: {
+    nodeSpacing: 45,
+    rankSpacing: 45,
+    padding: 18
+  }
+});
+
+// Code copy button & language banner
+const LANG_MAP = {
+  'csharp': 'C#',
+  'cs': 'C#',
+  'cpp': 'C++',
+  'c++': 'C++',
+  'gdscript': 'GDScript',
+  'javascript': 'JavaScript',
+  'js': 'JavaScript',
+  'typescript': 'TypeScript',
+  'ts': 'TypeScript',
+  'python': 'Python',
+  'py': 'Python',
+  'html': 'HTML',
+  'css': 'CSS',
+  'json': 'JSON',
+  'bash': 'Bash',
+  'sh': 'Bash',
+  'shell': 'Bash',
+  'markdown': 'Markdown',
+  'md': 'Markdown',
+  'sql': 'SQL',
+  'yaml': 'YAML',
+  'yml': 'YAML'
+};
+
+document.querySelectorAll('pre code').forEach((codeBlock) => {
+  const pre = codeBlock.parentElement;
+
+  // Handle Mermaid diagrams
+  if (codeBlock.classList.contains('language-mermaid')) {
+    const raw = codeBlock.textContent.trim();
+    const container = document.createElement('div');
+    container.className = 'mermaid-container';
+    const mDiv = document.createElement('div');
+    mDiv.className = 'mermaid';
+    mDiv.textContent = raw;
+    container.appendChild(mDiv);
+    pre.parentNode.replaceChild(container, pre);
+    return;
+  }
+
+  const container = document.createElement('div');
+  container.className = 'code-container';
+  
+  let lang = 'Code';
+  codeBlock.classList.forEach(cls => {
+    if (cls.startsWith('language-')) {
+      const raw = cls.replace('language-', '').toLowerCase();
+      lang = LANG_MAP[raw] || (raw.charAt(0).toUpperCase() + raw.slice(1));
+    }
+  });
+
+  const bar = document.createElement('div');
+  bar.className = 'code-bar';
+  bar.innerHTML = `<span class="code-lang">${lang}</span><button class="copy-code-btn" type="button">복사</button>`;
+
+  const copyBtn = bar.querySelector('.copy-code-btn');
+  copyBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(codeBlock.innerText);
+      copyBtn.innerText = '복사됨!';
+      setTimeout(() => { copyBtn.innerText = '복사'; }, 2000);
+    } catch (err) {
+      copyBtn.innerText = '실패';
+    }
+  });
+
+  pre.parentNode.insertBefore(container, pre);
+  container.appendChild(bar);
+  container.appendChild(pre);
+});
+
+// Setup interactive zoom for Mermaid diagrams
+function setupMermaidZoom() {
+  document.querySelectorAll('.mermaid-container').forEach(container => {
+    if (container.querySelector('.mermaid-toolbar')) return;
+    const toolbar = document.createElement('div');
+    toolbar.className = 'mermaid-toolbar';
+    toolbar.innerHTML = `
+      <button class="mermaid-btn" type="button" data-zoom="-0.15" title="축소">－</button>
+      <span class="mermaid-scale-text">100%</span>
+      <button class="mermaid-btn" type="button" data-zoom="0.15" title="확대">＋</button>
+      <button class="mermaid-btn" type="button" data-zoom="reset" title="원래 크기">↺</button>
+    `;
+    container.insertBefore(toolbar, container.firstChild);
+
+    let currentScale = 1.0;
+    const scaleText = toolbar.querySelector('.mermaid-scale-text');
+
+    toolbar.addEventListener('click', (e) => {
+      const btn = e.target.closest('.mermaid-btn');
+      if (!btn) return;
+      e.stopPropagation();
+      const zoom = btn.dataset.zoom;
+      const svg = container.querySelector('svg');
+      if (!svg) return;
+
+      if (zoom === 'reset') {
+        currentScale = 1.0;
+      } else {
+        const delta = parseFloat(zoom);
+        currentScale = Math.max(0.6, Math.min(2.0, currentScale + delta));
+      }
+
+      scaleText.innerText = `${Math.round(currentScale * 100)}%`;
+      svg.style.transform = `scale(${currentScale})`;
+      svg.style.transformOrigin = 'center center';
+    });
+  });
+}
+
+// Render Mermaid diagrams
+if (document.querySelectorAll('.mermaid').length > 0) {
+  mermaid.run({
+    nodes: document.querySelectorAll('.mermaid')
+  }).then(() => {
+    setupMermaidZoom();
+  }).catch(err => console.warn('Mermaid rendering error:', err));
+}
+</script>
+</body>
+</html>

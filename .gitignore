@@ -1,0 +1,11 @@
+# Local Editor & Server (Private to localhost - never committed)
+server.py
+editor/
+__pycache__/
+*.pyc
+
+# OS & Editor temporary files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

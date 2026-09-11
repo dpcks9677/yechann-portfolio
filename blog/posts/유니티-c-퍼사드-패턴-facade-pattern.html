@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>유니티 C# | 퍼사드 패턴 (Facade Pattern) — 김예찬</title>
+<meta name="description" content="복잡한 내부 구조를 감추고 사용자가 쉽게 다룰 수 있도록 하나의 단순한 상위 인터페이스를 제공하는 퍼사드 디자인 패턴">
+<meta property="og:title" content="유니티 C# | 퍼사드 패턴 (Facade Pattern) — 김예찬">
+<meta property="og:description" content="복잡한 내부 구조를 감추고 사용자가 쉽게 다룰 수 있도록 하나의 단순한 상위 인터페이스를 제공하는 퍼사드 디자인 패턴">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+<div class="shell" id="top">
+
+<header class="nav">
+<a href="../../index.html" class="nav-brand">김예찬 <span>/ Tech Notes</span></a>
+<nav class="nav-links">
+  <a href="../index.html">← 블로그 목록</a>
+  <a href="../../index.html">포트폴리오 홈</a>
+</nav>
+</header>
+
+<article class="post-article">
+<div class="post-header" style="max-width:780px;margin:0 auto 44px;">
+  <div class="post-back-nav">
+    <a href="../index.html" class="post-back-link">← 블로그 목록으로 돌아가기</a>
+  </div>
+  <div class="post-category-kicker">유니티 C#</div>
+  <h1>유니티 C# | 퍼사드 패턴 (Facade Pattern)</h1>
+  <div class="post-meta-col">
+    <div class="post-date"><b>발행일:</b> 2026-09-11</div>
+    <div class="tags"><span class="tag">Unity</span><span class="tag">C#</span><span class="tag">디자인패턴</span><span class="tag">Facade</span></div>
+  </div>
+</div>
+
+<div class="prose">
+<h2>퍼사드 패턴 (Facade Pattern)</h2>
+<ul>
+<li>복잡한 서브시스템(클래스/모듈들의 집합)에 대해 하나의 단순화된 인터페이스(창구)를 제공하는 구조적 디자인 패턴</li>
+<li>복잡한 내부 구조를 감추고 사용자가 쉽게 다룰 수 있도록 하나의 단순한 상위 인터페이스를 제공하는 방식이다. 복잡한 내부 동작 방식을 몰라도, 퍼사드가 제공하는 단일 메서드만 호출하여 원하는 작업을 처리할 수 있음</li>
+</ul>
+<p>다음은 퍼사드 패턴의 역할을 나타낸 순서도다. 퍼사드의 메서드를 실행하면 그 아래의 하위 시스템들이 동작하는 구조이다.</p>
+<pre><code class="language-plainText">[Client] ──&gt; [Facade] ──┬──&gt; [Subsystem A]
+                        ├──&gt; [Subsystem B]
+                        └──&gt; [Subsystem C]
+</code></pre>
+<p>이번 예제에서는 이미 있는 프로젝트를 활용해서 설명하도록 하겠다.</p>
+<p>기존 코드를 먼저 보겠다. 다음은 Item 클래스를 상속받는 3개의 구체 클래스이다.</p>
+<p>세 가지 클래스 모두 GetComponent&lt;&gt;() 메소드를 이용해 target 변수에 할당하고 값을 재할당하는 구조다. 이러한 구조는 외부 스크립트가 대상의 내부 컴포넌트 구조를 알고 있어야 하는 문제가 있다. 이는 코드의 결합도를 높이는 문제를 야기한다.</p>
+<pre><code class="language-csharp">// FastItem.cs
+public class FastItem : Item
+{
+    protected override void TakeItem(GameObject target)
+    {
+        PlayerMove playerHealth = target.GetComponent&lt;PlayerMove&gt;();
+        playerHealth.ModifySpeed(3);
+    }
+}
+
+// HealItem.cs
+public class HealItem : Item
+{
+    protected override void TakeItem(GameObject target)
+    {
+        PlayerHealth playerHealth = target.GetComponent&lt;PlayerHealth&gt;();
+        playerHealth.ModifyHealth(1);
+    }
+}
+
+// IncreaseFireRate.cs
+public class increaseFireRate : Item
+{
+    protected override void TakeItem(GameObject target)
+    {
+        PlayerFire playerFire = target.GetComponent&lt;PlayerFire&gt;();
+        playerFire.ModifyFireRate(0.1f);
+    }
+}
+</code></pre>
+<p>이를 해결하기 위해 PlayerFacade.cs 라는 스크립트를 만들어서 중앙 관리 해보도록 하겠다. 유니티 라이프사이클에 의해, 객체가 생성될 때 내부 서브시스템들을 먼저 할당한 뒤에, 단일 기능들을 연결해준다.</p>
+<p>*현재 연결한 기능들은 메서드 하나만 실행하는 단순한 로직이다. 따라서 복잡한 인터페이스를 대체하는 것처럼 보이지는 않지만, 한 번에 많은 작업을 해야한다면 해당 작업에 여러가지 메서드를 실행하도록 배치하면 된다.</p>
+<pre><code class="language-csharp">using UnityEngine;
+
+/*
+유니티에서 제공하는 **속성(Attribute)**으로
+&quot;이 스크립트가 정상 동작하려면 해당 컴포넌트가 
+반드시 같은 게임오브젝트에 함께 붙어 있어야 한다&quot;고 
+유니티 에디터에 명시하는 안전장치 문법
+*/
+[RequireComponent(typeof(PlayerMove))]
+[RequireComponent(typeof(PlayerHealth))]
+[RequireComponent(typeof(PlayerFire))]
+
+
+public class PlayerFacade : MonoBehaviour
+{
+    // 1. 내부 서브시스템 캐싱
+    private PlayerMove _playerMove;
+    private PlayerHealth _playerHealth;
+    private PlayerFire _playerFire;
+
+    private void Awake()
+    {
+        _playerMove = GetComponent&lt;PlayerMove&gt;();
+        _playerHealth = GetComponent&lt;PlayerHealth&gt;();
+        _playerFire = GetComponent&lt;PlayerFire&gt;();
+    }
+
+    // 2. 단일 기능 위임
+    // 화살표 문법은 중괄호와 return을 생략하고 한 줄로 표기하는 방법
+    public void IncreaseSpeed(int amount) =&gt; _playerMove.ModifySpeed(amount);
+    public void Heal(int amount) =&gt; _playerHealth.ModifyHealth(amount);
+    public void IncreaseFireRate(float amount) =&gt; _playerFire.ModifyFireRate(amount);
+
+    // 3. 다중 컴포넌트 일괄 조율
+    public void OnDeath()
+    {
+        _playerMove.enabled = false;
+        _playerFire.enabled = false;
+    }
+}
+</code></pre>
+<p>마지막으로, 기존의 Item 클래스를 상속하는 구체 클래스들이 퍼사드를 이용하여 PlayerHealth, PlayerMove, PlayerFireRate 클래스의 값을 수정하도록 한다. 이 때, 파사드를 이용하는 클래스들은 퍼사드 내부의 구체적인 로직을 자세히 알 필요 없이 해당 작업을 실행하기만 하면 된다.</p>
+<pre><code class="language-csharp">// FastItem.cs
+public class FastItem : Item
+{
+    protected override void TakeItem(GameObject target)
+    {
+        if(target.TryGetComponent&lt;PlayerFacade&gt;(out var player)){
+            player.IncreaseSpeed(3);
+        }
+    }
+}
+
+// HealItem.cs
+public class HealItem : Item
+{
+    protected override void TakeItem(GameObject target)
+    {
+        if (target.TryGetComponent&lt;PlayerFacade&gt;(out var player))
+        {
+            player.Heal(1);
+        }
+    }
+}
+
+// IncreaseFireRate.cs
+public class increaseFireRate : Item
+{
+    protected override void TakeItem(GameObject target)
+    {
+        if(target.TryGetComponent&lt;PlayerFacade&gt;(out var player))
+        {
+            player.IncreaseFireRate(0.1f);
+        }
+    }
+}
+</code></pre>
+<p>변경한 퍼사드 패턴을 다이어그램으로 변환하면 다음과 같다.</p>
+<pre><code class="language-mermaid">classDiagram
+    direction LR
+
+    %% 외부 클라이언트 (아이템들)
+    class HealItem {
+        +TakeItem(target)
+    }
+    class FastItem {
+        +TakeItem(target)
+    }
+    class IncreaseFireRate {
+        +TakeItem(target)
+    }
+
+    %% 파사드 (단일 창구)
+    class PlayerFacade {
+        &lt;&lt;Facade 창구&gt;&gt;
+        +Heal(int)
+        +IncreaseSpeed(int)
+        +IncreaseFireRate(float)
+        +OnDeath()
+    }
+
+    %% 플레이어 내부 서브시스템
+    class PlayerHealth {
+        &lt;&lt;Subsystem&gt;&gt;
+        -int _health
+        +ModifyHealth(int)
+        +ReturnHealth()
+    }
+    class PlayerMove {
+        &lt;&lt;Subsystem&gt;&gt;
+        +float Speed
+        +ModifySpeed(int)
+    }
+    class PlayerFire {
+        &lt;&lt;Subsystem&gt;&gt;
+        -float _fireRate
+        +ModifyFireRate(float)
+    }
+
+    %% 관계선
+    HealItem ..&gt; PlayerFacade : 1. player.Heal()
+    FastItem ..&gt; PlayerFacade : 1. player.IncreaseSpeed()
+    IncreaseFireRate ..&gt; PlayerFacade : 1. player.IncreaseFireRate()
+
+    PlayerFacade --&gt; PlayerHealth : 2. 위임(Delegation)
+    PlayerFacade --&gt; PlayerMove : 2. 위임(Delegation)
+    PlayerFacade --&gt; PlayerFire : 2. 위임(Delegation)
+</code></pre>
+<p>Facade Pattern 도식화</p>
+<h3>장점</h3>
+<ul>
+<li><u><strong>복잡성 은닉</strong></u>: 복잡한 시스템을 숨기고 간편한 인터페이스 제공</li>
+<li><u><strong>결합도 감소</strong></u>: 클라이언트 코드가 서브시스템에 직접 의존하지 않음</li>
+<li><u><strong>가독성 및 유지보수 향상</strong></u>: 내부 변경이 클라이언트 코드에 미치는 영향 최소화</li>
+</ul>
+<h3>단점</h3>
+<ul>
+<li><u><strong>전지전능 객체(God Object) 위험</strong></u>: 퍼사드 클래스가 모든 클래스에 의존하여 거대해질 수 있음</li>
+<li><u><strong>추가 레이어 생성</strong></u>: 단순한 구조에 도입할 경우 오히려 코드 관리 비용 증가</li>
+</ul>
+</div>
+
+<div class="post-footer-box">
+  <div class="author-card">
+    <img src="../../images/profile.webp" alt="김예찬 프로필" class="author-avatar" onerror="this.style.display='none'">
+    <div class="author-info">
+      <h4>김예찬 / SW Developer · Content Planner</h4>
+      <p>방갑습니다 옛잔입니다</p>
+    </div>
+  </div>
+
+  <div class="post-nav-links">
+    <a href="interface-and-strategy-pattern.html" class="post-nav-btn">
+  <span class="post-nav-category-badge">[유니티 C#] 이전 글</span>
+  <span class="nav-title">유니티 C# | 인터페이스와 전략 패턴 (Strategy Pattern)</span>
+</a>
+    <div class="post-nav-btn" style="text-align:right;opacity:0.4;cursor:default">
+  <span class="post-nav-category-badge">[유니티 C#]</span>
+  <span class="nav-sub">카테고리의 최신 글입니다</span>
+</div>
+  </div>
+</div>
+</article>
+
+<!-- Blog Dedicated Footer -->
+<footer class="blog-footer">
+  <div class="blog-footer-inner">
+    <div class="blog-footer-brand">
+      <h3>옛잔의 기술블로그</h3>
+      <p>배우고 고민한 기술적 시도와 문제 해결의 기록을 남깁니다.</p>
+    </div>
+    <div class="blog-footer-links">
+      <div class="blog-footer-col">
+        <div class="blog-footer-col-title">Navigation</div>
+        <a href="../index.html">블로그 목록</a>
+        <a href="../../index.html">포트폴리오 홈</a>
+        <a href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">맨 위로</a>
+      </div>
+      <div class="blog-footer-col">
+        <div class="blog-footer-col-title">Connect</div>
+        <a href="https://github.com/dpcks9677" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:yechann.dev@gmail.com">Email</a>
+      </div>
+    </div>
+  </div>
+  <div class="blog-footer-bottom">
+    <span>© 2026 Kim Yechan. All rights reserved.</span>
+    <a href="../index.html">← 블로그 목록으로 돌아가기</a>
+  </div>
+</footer>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-gdscript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+// Mermaid setup for diagrams
+mermaid.initialize({
+  startOnLoad: false,
+  suppressErrorRendering: true,
+  theme: 'dark',
+  themeVariables: {
+    darkMode: true,
+    background: '#1a1919',
+    mainBkg: '#222121',
+    nodeBorder: '#4a4645',
+    lineColor: '#c85a32',
+    primaryColor: '#2d2b2a',
+    primaryTextColor: '#f0eeed',
+    primaryBorderColor: '#c85a32',
+    textColor: '#e8e6e5',
+    fontSize: '16px',
+    fontFamily: 'Pretendard, -apple-system, sans-serif'
+  },
+  flowchart: {
+    nodeSpacing: 45,
+    rankSpacing: 45,
+    padding: 18
+  }
+});
+
+// Code copy button & language banner
+const LANG_MAP = {
+  'csharp': 'C#',
+  'cs': 'C#',
+  'cpp': 'C++',
+  'c++': 'C++',
+  'gdscript': 'GDScript',
+  'javascript': 'JavaScript',
+  'js': 'JavaScript',
+  'typescript': 'TypeScript',
+  'ts': 'TypeScript',
+  'python': 'Python',
+  'py': 'Python',
+  'html': 'HTML',
+  'css': 'CSS',
+  'json': 'JSON',
+  'bash': 'Bash',
+  'sh': 'Bash',
+  'shell': 'Bash',
+  'markdown': 'Markdown',
+  'md': 'Markdown',
+  'sql': 'SQL',
+  'yaml': 'YAML',
+  'yml': 'YAML'
+};
+
+document.querySelectorAll('pre code').forEach((codeBlock) => {
+  const pre = codeBlock.parentElement;
+
+  // Handle Mermaid diagrams
+  if (codeBlock.classList.contains('language-mermaid')) {
+    const raw = codeBlock.textContent.trim();
+    const container = document.createElement('div');
+    container.className = 'mermaid-container';
+    const mDiv = document.createElement('div');
+    mDiv.className = 'mermaid';
+    mDiv.textContent = raw;
+    container.appendChild(mDiv);
+    pre.parentNode.replaceChild(container, pre);
+    return;
+  }
+
+  const container = document.createElement('div');
+  container.className = 'code-container';
+  
+  let lang = 'Code';
+  codeBlock.classList.forEach(cls => {
+    if (cls.startsWith('language-')) {
+      const raw = cls.replace('language-', '').toLowerCase();
+      lang = LANG_MAP[raw] || (raw.charAt(0).toUpperCase() + raw.slice(1));
+    }
+  });
+
+  const bar = document.createElement('div');
+  bar.className = 'code-bar';
+  bar.innerHTML = `<span class="code-lang">${lang}</span><button class="copy-code-btn" type="button">복사</button>`;
+
+  const copyBtn = bar.querySelector('.copy-code-btn');
+  copyBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(codeBlock.innerText);
+      copyBtn.innerText = '복사됨!';
+      setTimeout(() => { copyBtn.innerText = '복사'; }, 2000);
+    } catch (err) {
+      copyBtn.innerText = '실패';
+    }
+  });
+
+  pre.parentNode.insertBefore(container, pre);
+  container.appendChild(bar);
+  container.appendChild(pre);
+});
+
+// Setup interactive zoom for Mermaid diagrams
+function setupMermaidZoom() {
+  document.querySelectorAll('.mermaid-container').forEach(container => {
+    if (container.querySelector('.mermaid-toolbar')) return;
+    const toolbar = document.createElement('div');
+    toolbar.className = 'mermaid-toolbar';
+    toolbar.innerHTML = `
+      <button class="mermaid-btn" type="button" data-zoom="-0.15" title="축소">－</button>
+      <span class="mermaid-scale-text">100%</span>
+      <button class="mermaid-btn" type="button" data-zoom="0.15" title="확대">＋</button>
+      <button class="mermaid-btn" type="button" data-zoom="reset" title="원래 크기">↺</button>
+    `;
+    container.insertBefore(toolbar, container.firstChild);
+
+    let currentScale = 1.0;
+    const scaleText = toolbar.querySelector('.mermaid-scale-text');
+
+    toolbar.addEventListener('click', (e) => {
+      const btn = e.target.closest('.mermaid-btn');
+      if (!btn) return;
+      e.stopPropagation();
+      const zoom = btn.dataset.zoom;
+      const svg = container.querySelector('svg');
+      if (!svg) return;
+
+      if (zoom === 'reset') {
+        currentScale = 1.0;
+      } else {
+        const delta = parseFloat(zoom);
+        currentScale = Math.max(0.6, Math.min(2.0, currentScale + delta));
+      }
+
+      scaleText.innerText = `${Math.round(currentScale * 100)}%`;
+      svg.style.transform = `scale(${currentScale})`;
+      svg.style.transformOrigin = 'center center';
+    });
+  });
+}
+
+// Render Mermaid diagrams
+if (document.querySelectorAll('.mermaid').length > 0) {
+  mermaid.run({
+    nodes: document.querySelectorAll('.mermaid')
+  }).then(() => {
+    setupMermaidZoom();
+  }).catch(err => console.warn('Mermaid rendering error:', err));
+}
+</script>
+</body>
+</html>

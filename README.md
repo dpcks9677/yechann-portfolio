@@ -1,19 +1,34 @@
-# 김예찬 포트폴리오
+# 김예찬 포트폴리오 & 기술 블로그
 
-정적 원페이지 사이트. 빌드 도구·의존성 없음 — `index.html`과 `styles.css` 두 파일이 전부입니다.
+정적 에디토리얼 스타일의 포트폴리오 및 마크다운 기반 자체 기술 블로그(Devlog)입니다.
 
-## 로컬 확인
+## 로컬 확인 및 전용 글 작성 에디터 (CMS)
 
 ```bash
-cd site
-python3 -m http.server 8000   # → http://localhost:8000
+python server.py
 ```
+* **메인 포트폴리오**: `http://localhost:8000`
+* **기술 블로그**: `http://localhost:8000/blog/`
+* **📝 글 작성/수정 에디터**: `http://localhost:8000/editor`
+  * 브라우저에서 편리하게 실시간 미리보기를 보면서 글을 작성/수정하고 저장할 수 있습니다.
+  * **[저장 및 사이트 반영]**을 누르면 마크다운 파일 저장과 블로그 빌드가 원클릭으로 자동 완료됩니다.
+  * **보안 보장**: 에디터와 `server.py`는 `.gitignore`에 등록되어 GitHub에는 절대 올라가지 않으며, 내 로컬 컴퓨터에서만 안전하게 실행됩니다.
+
+## 수동 마크다운 작성 및 빌드 (CLI)
+
+에디터 대신 텍스트 편집기로 직접 작성할 수도 있습니다:
+1. `content/posts/` 폴더에 `[파일명].md` 작성
+2. `python build.py` 실행
 
 ## GitHub Pages 배포
 
-1. 이 폴더의 파일을 `dpcks9677/yechann-portfolio` 저장소 루트에 올립니다.
-2. Settings → Pages → Source를 `main` 브랜치 `/ (root)`로 지정합니다.
-3. `https://dpcks9677.github.io/yechann-portfolio/` 로 공개됩니다.
+1. 빌드 완료 후 저장소에 커밋 및 푸시합니다:
+   ```bash
+   git add .
+   git commit -m "Add new blog post"
+   git push origin main
+   ```
+2. `https://dpcks9677.github.io/yechann-portfolio/` 로 즉시 공개됩니다.
 
 ## 이미지
 

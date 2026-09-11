@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>유니티 C# | 싱글턴 패턴 (Singleton Pattern) — 김예찬</title>
+<meta name="description" content="특정 클래스의 인스턴스를 단 하나만 생성하도록 보장하고, 그 인스턴스에 전역적인 접근점을 제공하는 싱글턴 디자인 패턴">
+<meta property="og:title" content="유니티 C# | 싱글턴 패턴 (Singleton Pattern) — 김예찬">
+<meta property="og:description" content="특정 클래스의 인스턴스를 단 하나만 생성하도록 보장하고, 그 인스턴스에 전역적인 접근점을 제공하는 싱글턴 디자인 패턴">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+<div class="shell" id="top">
+
+<header class="nav">
+<a href="../../index.html" class="nav-brand">김예찬 <span>/ Tech Notes</span></a>
+<nav class="nav-links">
+  <a href="../index.html">← 블로그 목록</a>
+  <a href="../../index.html">포트폴리오 홈</a>
+</nav>
+</header>
+
+<article class="post-article">
+<div class="post-header" style="max-width:780px;margin:0 auto 44px;">
+  <div class="post-back-nav">
+    <a href="../index.html" class="post-back-link">← 블로그 목록으로 돌아가기</a>
+  </div>
+  <div class="post-category-kicker">유니티 C#</div>
+  <h1>유니티 C# | 싱글턴 패턴 (Singleton Pattern)</h1>
+  <div class="post-meta-col">
+    <div class="post-date"><b>발행일:</b> 2026-09-11</div>
+    <div class="tags"><span class="tag">Unity</span><span class="tag">C#</span><span class="tag">디자인패턴</span><span class="tag">Singleton</span></div>
+  </div>
+</div>
+
+<div class="prose">
+<h2>싱글턴 패턴 (Singleton Pattern)</h2>
+<p>특정 클래스의 인스턴스를 단 하나만 생성하도록 보장하고, 그 인스턴스에  전역적인 접근점을 제공하는 디자인 패턴</p>
+<hr />
+<p>일반적으로 매니저를 개발할 때 싱글턴 패턴이 적합하므로, <code>ScoreManager</code>를 설계하는 방향으로 기술하도록 한다.</p>
+<p>우선 <code>static</code>으로 두 가지 클래스를 선언한다.</p>
+<p>첫 번째로 선언한 클래스는 실제 데이터 저장소(Backing Field)다. </p>
+<ul>
+<li><code>ScoreManager</code> 내부에서만 실행할 수 있다.</li>
+<li><code>private</code>이므로 외부에서 접근이 불가능하다. </li>
+</ul>
+<p>두 번째로 선언한 클래스는 외부 공개용 통로 (Property)</p>
+<ul>
+<li><code>public</code>이므로 다른 클래스에서 싱글톤에 접근할 수 있게 한다.</li>
+<li><code>=&gt; _instance</code> 는 읽기 전용(Get-Only) 프로퍼티 문법으로, 외부에서는 읽기만 가능하고 새로운 값을 할당(=)할 수 없다.</li>
+</ul>
+<pre><code class="language-csharp">public class ScoreManager : MonoBehaviour
+{
+    // 싱글턴 패턴
+    // 1. 전역적으로 접근이 가능함
+    // 2. 인스턴스가 하나임을 보장한다.
+    private static ScoreManager _instance;
+    public static ScoreManager Instance =&gt; _instance;
+}
+</code></pre>
+<p>다음으로, 유니티에서 인스턴스가 생성되었을 때, 클래스가 하나만 존재하도록 하는 코드를 작성한다.</p>
+<ul>
+<li>인스턴스가 처음에 생성된다면, 하단부의 코드에 의해 _instance 변수에 자신을 넣는다.</li>
+<li>인스턴스가 중복 생성된다면, if 절의 검사문에 의해 자기 자신을 삭제해 중복 생성을 방지한다.</li>
+</ul>
+<pre><code class="language-csharp">public class ScoreManager : MonoBehaviour
+{
+    private static ScoreManager _instance;
+    public static ScoreManager Instance =&gt; _instance;
+
+    private void Awake()
+    {
+        // 중복 생성 방지 코드로, 이미 인스턴스가 있으면 자신을 제거한다.
+        if (_instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        _instance = this;
+    }
+}
+</code></pre>
+<pre><code class="language-mermaid">graph TD
+    A[오브젝트 로드 및 Awake 실행] --&gt; B{_instance != null ?}
+    B -- 예 (이미 존재) --&gt; C[Destroy: 중복 오브젝트 즉시 제거]
+    B -- 아니오 (최초 생성) --&gt; D[_instance = this 할당 및 단일 인스턴스 유지]
+</code></pre>
+<p>다음은 유니티에서 최고 점수를 저장하고 불러오는 기능을 추가한 전문이다.</p>
+<p><code>GetScore()</code>, <code>AddScore()</code></p>
+<ul>
+<li>현재 score를 리턴하고 추가하는 기능</li>
+</ul>
+<p><code>RefreshText()</code></p>
+<ul>
+<li>유니티의 UI 텍스트 오브젝트를 갱신하는 기능</li>
+</ul>
+<p><code>LoadData()</code></p>
+<ul>
+<li>데이터를 간편하게 저장하고 불러오는 PlayerPrefs 클래스를 사용해서 최고 점수를 불러옴</li>
+</ul>
+<p>PlayerPrefs는 Key-Value 형태로 데이터를 관리하며 <code>int</code>, <code>float</code>, <code>string</code> 세 가지 데이터 타입만 지원한다.</p>
+<pre><code class="language-csharp">using System;
+using TMPro;
+using UnityEngine;
+
+public class ScoreManager : MonoBehaviour
+{
+    // 싱글턴 패턴
+    // 1. 전역적으로 접근이 가능함
+    // 2. 인스턴스가 하나임을 보장한다.
+    private static ScoreManager _instance;
+    public static ScoreManager Instance =&gt; _instance;
+
+    // 관리: 특정 데이터에 대한 무결성과 추가, 수정, 삭제 등과 관련된 로직을 말함
+    private int _bestScore;
+    private int _currentScore;
+
+    // 저장 키
+    private const string SaveKey = &quot;BestScore&quot;;
+
+    // UI 책임 추가
+    [SerializeField] private TextMeshProUGUI _bestScoreText;
+    [SerializeField] private TextMeshProUGUI _currentScoreText;
+
+    private void Awake()
+    {
+        // 중복 생성 방지 코드
+        if (_instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        _instance = this;
+    }
+
+    private void Start()
+    {
+        LoadData();
+    }
+
+    // Getter
+    public int GetScore()
+    {
+        return _currentScore;
+    }
+
+    // Setter
+    public void AddScore(int score)
+    {
+        if (score &lt;= 0) return;
+
+        _currentScore += score;
+        if (_currentScore &gt; _bestScore)
+        {
+            _bestScore = _currentScore;
+
+            // 저장: PlayerPrefs.Set~ 시리즈를 이용해서 int/float/string을 저장 가능
+            // 내 컴퓨터 어딘가에 저장이 된다
+            PlayerPrefs.SetInt(SaveKey, _bestScore);
+            PlayerPrefs.Save();
+        }
+
+        RefreshText();
+    }
+
+    private void RefreshText()
+    {
+        _bestScoreText.text = $&quot;Best Score: {_bestScore}&quot;;
+        _currentScoreText.text = $&quot;Score: {_currentScore}&quot;;
+    }
+
+    private void LoadData()
+    {
+        if (PlayerPrefs.HasKey(SaveKey))
+        {
+            _bestScore = PlayerPrefs.GetInt(SaveKey);
+        }
+
+        _bestScore = PlayerPrefs.GetInt(SaveKey, 0);
+
+        RefreshText();
+    }
+}
+</code></pre>
+<h3>장점</h3>
+<ul>
+<li><strong><u>편리한 데이터 공유</u></strong>: 여러 스크립트에서 참조를 일일이 연결(GetComponent나 Find)하지 않고도 즉시 접근해 사용 가능</li>
+<li><u><strong>메모리 절약 및 제어</strong></u>: 동일한 객체를 무분별하게 생성하는 것을 막을 수 있음</li>
+</ul>
+<h3>단점 및 주의점</h3>
+<ul>
+<li><u><strong>높은 결합도(Tight Coupling)</strong></u>: 어디서든 접근할 수 있다 보니, 코드 간의 의존성이 커져 나중에 특정 클래스만 수정하거나 테스트하기 어려워질 수 있음</li>
+<li><u><strong>상태 관리의 어려움</strong></u>: 전역 변수처럼 동작하므로, 어디서 이 값을 변경했는지 추적하기가 까다로워질 수 있음</li>
+</ul>
+</div>
+
+<div class="post-footer-box">
+  <div class="author-card">
+    <img src="../../images/profile.webp" alt="김예찬 프로필" class="author-avatar" onerror="this.style.display='none'">
+    <div class="author-info">
+      <h4>김예찬 / SW Developer · Content Planner</h4>
+      <p>방갑습니다 옛잔입니다</p>
+    </div>
+  </div>
+
+  <div class="post-nav-links">
+    <div class="post-nav-btn" style="opacity:0.4;cursor:default">
+  <span class="post-nav-category-badge">[유니티 C#]</span>
+  <span class="nav-sub">카테고리의 첫 번째 글입니다</span>
+</div>
+    <a href="interface-and-strategy-pattern.html" class="post-nav-btn" style="text-align:right">
+  <span class="post-nav-category-badge">[유니티 C#] 다음 글</span>
+  <span class="nav-title">유니티 C# | 인터페이스와 전략 패턴 (Strategy Pattern)</span>
+</a>
+  </div>
+</div>
+</article>
+
+<!-- Blog Dedicated Footer -->
+<footer class="blog-footer">
+  <div class="blog-footer-inner">
+    <div class="blog-footer-brand">
+      <h3>옛잔의 기술블로그</h3>
+      <p>배우고 고민한 기술적 시도와 문제 해결의 기록을 남깁니다.</p>
+    </div>
+    <div class="blog-footer-links">
+      <div class="blog-footer-col">
+        <div class="blog-footer-col-title">Navigation</div>
+        <a href="../index.html">블로그 목록</a>
+        <a href="../../index.html">포트폴리오 홈</a>
+        <a href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">맨 위로</a>
+      </div>
+      <div class="blog-footer-col">
+        <div class="blog-footer-col-title">Connect</div>
+        <a href="https://github.com/dpcks9677" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:yechann.dev@gmail.com">Email</a>
+      </div>
+    </div>
+  </div>
+  <div class="blog-footer-bottom">
+    <span>© 2026 Kim Yechan. All rights reserved.</span>
+    <a href="../index.html">← 블로그 목록으로 돌아가기</a>
+  </div>
+</footer>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-gdscript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+// Mermaid setup for diagrams
+mermaid.initialize({
+  startOnLoad: false,
+  suppressErrorRendering: true,
+  theme: 'dark',
+  themeVariables: {
+    darkMode: true,
+    background: '#1a1919',
+    mainBkg: '#222121',
+    nodeBorder: '#4a4645',
+    lineColor: '#c85a32',
+    primaryColor: '#2d2b2a',
+    primaryTextColor: '#f0eeed',
+    primaryBorderColor: '#c85a32',
+    textColor: '#e8e6e5',
+    fontSize: '16px',
+    fontFamily: 'Pretendard, -apple-system, sans-serif'
+  },
+  flowchart: {
+    nodeSpacing: 45,
+    rankSpacing: 45,
+    padding: 18
+  }
+});
+
+// Code copy button & language banner
+const LANG_MAP = {
+  'csharp': 'C#',
+  'cs': 'C#',
+  'cpp': 'C++',
+  'c++': 'C++',
+  'gdscript': 'GDScript',
+  'javascript': 'JavaScript',
+  'js': 'JavaScript',
+  'typescript': 'TypeScript',
+  'ts': 'TypeScript',
+  'python': 'Python',
+  'py': 'Python',
+  'html': 'HTML',
+  'css': 'CSS',
+  'json': 'JSON',
+  'bash': 'Bash',
+  'sh': 'Bash',
+  'shell': 'Bash',
+  'markdown': 'Markdown',
+  'md': 'Markdown',
+  'sql': 'SQL',
+  'yaml': 'YAML',
+  'yml': 'YAML'
+};
+
+document.querySelectorAll('pre code').forEach((codeBlock) => {
+  const pre = codeBlock.parentElement;
+
+  // Handle Mermaid diagrams
+  if (codeBlock.classList.contains('language-mermaid')) {
+    const raw = codeBlock.textContent.trim();
+    const container = document.createElement('div');
+    container.className = 'mermaid-container';
+    const mDiv = document.createElement('div');
+    mDiv.className = 'mermaid';
+    mDiv.textContent = raw;
+    container.appendChild(mDiv);
+    pre.parentNode.replaceChild(container, pre);
+    return;
+  }
+
+  const container = document.createElement('div');
+  container.className = 'code-container';
+  
+  let lang = 'Code';
+  codeBlock.classList.forEach(cls => {
+    if (cls.startsWith('language-')) {
+      const raw = cls.replace('language-', '').toLowerCase();
+      lang = LANG_MAP[raw] || (raw.charAt(0).toUpperCase() + raw.slice(1));
+    }
+  });
+
+  const bar = document.createElement('div');
+  bar.className = 'code-bar';
+  bar.innerHTML = `<span class="code-lang">${lang}</span><button class="copy-code-btn" type="button">복사</button>`;
+
+  const copyBtn = bar.querySelector('.copy-code-btn');
+  copyBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(codeBlock.innerText);
+      copyBtn.innerText = '복사됨!';
+      setTimeout(() => { copyBtn.innerText = '복사'; }, 2000);
+    } catch (err) {
+      copyBtn.innerText = '실패';
+    }
+  });
+
+  pre.parentNode.insertBefore(container, pre);
+  container.appendChild(bar);
+  container.appendChild(pre);
+});
+
+// Setup interactive zoom for Mermaid diagrams
+function setupMermaidZoom() {
+  document.querySelectorAll('.mermaid-container').forEach(container => {
+    if (container.querySelector('.mermaid-toolbar')) return;
+    const toolbar = document.createElement('div');
+    toolbar.className = 'mermaid-toolbar';
+    toolbar.innerHTML = `
+      <button class="mermaid-btn" type="button" data-zoom="-0.15" title="축소">－</button>
+      <span class="mermaid-scale-text">100%</span>
+      <button class="mermaid-btn" type="button" data-zoom="0.15" title="확대">＋</button>
+      <button class="mermaid-btn" type="button" data-zoom="reset" title="원래 크기">↺</button>
+    `;
+    container.insertBefore(toolbar, container.firstChild);
+
+    let currentScale = 1.0;
+    const scaleText = toolbar.querySelector('.mermaid-scale-text');
+
+    toolbar.addEventListener('click', (e) => {
+      const btn = e.target.closest('.mermaid-btn');
+      if (!btn) return;
+      e.stopPropagation();
+      const zoom = btn.dataset.zoom;
+      const svg = container.querySelector('svg');
+      if (!svg) return;
+
+      if (zoom === 'reset') {
+        currentScale = 1.0;
+      } else {
+        const delta = parseFloat(zoom);
+        currentScale = Math.max(0.6, Math.min(2.0, currentScale + delta));
+      }
+
+      scaleText.innerText = `${Math.round(currentScale * 100)}%`;
+      svg.style.transform = `scale(${currentScale})`;
+      svg.style.transformOrigin = 'center center';
+    });
+  });
+}
+
+// Render Mermaid diagrams
+if (document.querySelectorAll('.mermaid').length > 0) {
+  mermaid.run({
+    nodes: document.querySelectorAll('.mermaid')
+  }).then(() => {
+    setupMermaidZoom();
+  }).catch(err => console.warn('Mermaid rendering error:', err));
+}
+</script>
+</body>
+</html>
