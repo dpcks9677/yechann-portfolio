@@ -30,6 +30,7 @@ h3.sub{font-size:19px;font-weight:700}
 
 .nav{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:2px solid var(--divider);display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px var(--pad)}
 .nav-brand{font-size:16px;font-weight:700;letter-spacing:-.01em}
+.nav-brand span{font-size:13px;font-weight:600;color:var(--accent);margin-left:6px}
 .nav-links{display:flex;gap:26px}
 .nav-links a{font-size:14px;letter-spacing:.01em}
 
@@ -220,6 +221,7 @@ h3.sub{font-size:19px;font-weight:700}
 .post-nav-btn{flex:1;padding:18px;border:1px solid var(--divider);display:flex;flex-direction:column;gap:6px;transition:border-color .15s,background .15s}
 .post-nav-btn:hover{border-color:var(--text);background:rgba(32,30,29,.02)}
 .post-nav-category-badge{font-size:11.5px;color:var(--accent);font-weight:700;letter-spacing:.05em}
+.post-nav-btn .nav-title{font-size:15px;font-weight:700;color:var(--text);line-height:1.4}
 .post-nav-btn .nav-sub{font-size:12px;color:var(--n700);font-weight:600}
 /* Blog Dedicated Footer */
 .blog-footer{background:#1a1919;color:#e8e6e5;padding:56px var(--pad) 44px;border-top:2px solid var(--text)}
@@ -261,8 +263,8 @@ h3.sub{font-size:19px;font-weight:700}
   .proj2{gap:26px}
   .insight3{grid-template-columns:minmax(0,1fr)}
   .insight3>li,.insight3>li:first-child,.insight3>li:last-child{padding:16px 0;border-right:none;border-bottom:1px solid var(--n300)}
-  .blog-card-grid{grid-template-columns:minmax(0,1fr)}
-  .post-item{grid-template-columns:minmax(0,1fr);gap:8px}
+  .blog-container{grid-template-columns:minmax(0,1fr);gap:28px}
+  .blog-sidebar{order:2}
   .post-header h1{font-size:32px}
   .post-nav-links{flex-direction:column}
 }
