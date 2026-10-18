@@ -142,8 +142,7 @@
                 </div>
             </div>
             <ul class="insight3">
-                <li><span class="no">01</span><span class="txt"><b>데이터 주도 증강 시스템</b> — 55종 카드를 JSON 메타데이터로 분리하고 검증 스크립트와
-                        회귀 테스트를 붙여, 룰 추가가 코드 수정 없이 끝나도록 구성. 이 분리 덕에 엔진을 갈아타도 룰이 그대로 따라옴</span></li>
+                <li><span class="no">01</span><span class="txt"><b>증강 메타데이터 분리</b> — 55종 카드의 메타데이터를 JSON으로 분리하고 검증 스크립트와 회귀 테스트를 붙여, 카드를 추가·수정할 때 확인 범위를 줄임. 엔진을 바꿔도 같은 메타데이터를 그대로 가져감</span></li>
                 <li><span class="no">02</span><span class="txt"><b>권위 서버 구조</b> — 점수 판정을 서버가 소유하고 클라이언트는 표현만 담당하도록 나눠,
                         실시간 대전에서 상태가 갈라지지 않게 설계</span></li>
                 <li><span class="no">03</span><span class="txt"><b>도메인 주도 모듈 설계</b> — Unity 측을 Core · Dice · Tabletop ·
@@ -199,8 +198,7 @@
                             if-else 없이 상태 노드를 조립하는 것만으로 신규 유닛을 만드는 구조를 확립</span></li>
                     <li><span class="no">02</span><span class="txt"><b>라인 격리</b> — 물리 충돌 레이어/마스크를 실시간 매핑하고 Path2D로 이동
                             경로를 분리해, 필터링 로직 없이 엔진 물리 모듈만으로 라인 간 전투 판정을 완전히 격리</span></li>
-                    <li><span class="no">03</span><span class="txt"><b>전역 상태 관리</b> — Autoload 싱글톤과 JSON 직렬화로 씬 간 데이터를
-                            동기화하고, 저장 경로를 user://로 옮겨 PC·모바일 양쪽에서 안정적인 세이브/로드 확보</span></li>
+                    <li><span class="no">03</span><span class="txt"><b>세이브 데이터 일원화</b> — Autoload 싱글톤에 진행 데이터를 모으고 getter·setter로만 접근하게 해, 값이 바뀔 때 JSON으로 저장하고 씬이 바뀌어도 데이터를 유지</span></li>
                 </ul>
             </div>
         </section>
