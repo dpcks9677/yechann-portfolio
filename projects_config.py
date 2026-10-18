@@ -99,4 +99,31 @@ PROJECTS = [
         "all_lead": "",
         "extra": {},
     },
+    {
+        "slug": "line-offense",
+        "title": "Godot 횡스크롤 라인 오펜스",
+        "kicker": "GRADUATION PROJECT · 2023.11 — 2024.11",
+        "desc": "에르엘워즈를 레퍼런스로 만든 Godot 횡스크롤 라인 오펜스 졸업 프로젝트. 컴포넌트, FSM, 라인 격리, 세이브 구조의 설계 판단을 적었습니다.",
+        "og": "1인 개발 졸업 프로젝트. 설계 판단 5건과 그 한계를 기록했습니다.",
+        "hero": "여러 라인에서 유닛이 진격하고 맞붙는 횡스크롤 라인 오펜스입니다. 게임빌의 에르엘워즈를 레퍼런스로 삼았고, 유닛을 컴포넌트와 상태 노드로 조립하는 구조를 직접 설계했습니다. 1인 개발 졸업 프로젝트입니다.",
+        "roles": ["기획", "개발", "구조 설계"],
+        "buttons": [("primary", "#key", "핵심 판단 보기"), ("", "https://github.com/dpcks9677/Project_YEC", "GitHub ↗")],
+        "play": """<section class="section play">
+  <div class="kicker">PLAY</div>
+  <div class="play-grid">
+    <figure>
+      <img src="../../images/offense-game.webp" alt="횡스크롤 라인 오펜스 게임 플레이 화면" loading="lazy" decoding="async">
+      <figcaption>Godot 4 · 스테이지 플레이 화면</figcaption>
+    </figure>
+  </div>
+</section>""",
+        "cells": [
+            ("프로젝트", "수원대학교 졸업 프로젝트 · 1인 개발. 커밋 163개(2023.11 — 2024.07 공개 레포 기준). 아군 11종, 적 8종 유닛."),
+            ("스택", "Godot 4 · GDScript · Path2D · Autoload 싱글톤 · JSON 세이브"),
+        ],
+        "featured": [2, 3, 4],
+        "key_lead": "컴포넌트 조립, 라인 격리, FSM 전환. 각 항목은 상황 → 결정 → 이유 → 한계 순서입니다.",
+        "all_lead": "레퍼런스와 장르 선택, 세이브 구조.",
+        "extra": {},
+    },
 ]

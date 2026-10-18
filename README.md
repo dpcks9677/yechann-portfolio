@@ -60,5 +60,8 @@ python server.py
 ## 남은 항목
 
 - 미디어 4컷 이미지 (브이로그 · 카드뉴스 · 릴스 · 일러스트)
-- Project 03 기획서 · GitHub 링크 URL 미정
 - `profile.webp`가 4:3 가로 사진이라 세로 프레임에서 좌우가 잘립니다 — 세로 원본이 있으면 교체 권장
+
+## 프로젝트 상세 페이지
+
+`content/projects/<slug>/judgments.md`와 `projects_config.py`를 고친 뒤 `python build_projects.py`를 실행하면 `projects/<slug>/index.html`이 생성됩니다.
