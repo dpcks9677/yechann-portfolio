@@ -390,7 +390,7 @@ h2.title-sm{font-size:32px}
 .idline,.stack-list,.insight3,.record,.jd-list,.team-wrap,.work-list{border-top-color:var(--divider)}
 
 /* Home: project cards */
-.wk{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin-top:40px}
+.wk{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;margin-top:40px}
 .wk-card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--divider);border-radius:4px;overflow:hidden;transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s,border-color .2s}
 .wk-card:hover{transform:translateY(-4px);box-shadow:0 18px 40px -18px rgba(32,30,29,.35);border-color:rgba(32,30,29,.3);color:inherit}
 .wk-img{aspect-ratio:16/9;overflow:hidden;background:#12141c}
