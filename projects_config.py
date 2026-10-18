@@ -72,9 +72,8 @@ PROJECTS = [
       <a class="star-link" href="decisions.html#j8">판단 08 보기 →</a>
     </article>
   </div>
-</section>
-
-<section class="section" id="team">
+</section>""",
+        "after_key": """<section class="section" id="team">
   <div class="kicker">TEAM · 4번타자</div>
   <h2 class="title-sm">팀원별 담당 역할과 주요 작업</h2>
   <div class="team-wrap"><table class="team-table">

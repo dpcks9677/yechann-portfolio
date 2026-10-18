@@ -106,7 +106,7 @@ def build(P):
         "{{TITLE}}": P["title"], "{{KICKER}}": P["kicker"], "{{DESC}}": P["desc"], "{{OG}}": P["og"],
         "{{HERO}}": P["hero"], "{{ROLES}}": tags(P["roles"]), "{{BUTTONS}}": btns, "{{PLAY}}": P["play"],
         "{{CELLS}}": cells,
-        "{{AFTER_CELLS}}": P.get("after_cells", ""),
+        "{{AFTER_CELLS}}": P.get("after_cells", ""), "{{AFTER_KEY}}": P.get("after_key", ""),
         "{{HERO_CLASS}}": " has-bg" if P.get("hero_bg") else "",
         "{{HERO_STYLE}}": f' style="background-image:url({P["hero_bg"]})"' if P.get("hero_bg") else "",
         "{{FEATURED_N}}": f"{len(feats)}건", "{{KEY_LEAD}}": P["key_lead"],
@@ -175,6 +175,8 @@ TEMPLATE = """<!DOCTYPE html>
 <section class="section">
   <a class="btn" href="decisions.html">전체 판단 기록 {{TOTAL}}건 보기 →</a>
 </section>
+
+{{AFTER_KEY}}
 
 <section class="contact">
   <h2>더 궁금한 점이 있다면<br>연락 주세요</h2>
