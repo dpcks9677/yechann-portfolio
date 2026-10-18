@@ -465,3 +465,41 @@ h2.title-sm{font-size:32px}
   .split2>.cell,.split2>.cell:last-child{padding:16px 0;border-right:0}
   .star-card dl>div:last-child{margin-left:0;margin-right:0}
 }
+
+/* Pair card (Augmented Dice + Tessera) */
+.wk-pair{grid-column:1/-1}
+.pair-head{padding:30px 32px 6px;display:flex;flex-direction:column;gap:10px}
+.pair-head .yr{font-size:12.5px;font-weight:700;letter-spacing:.04em;color:var(--accent)}
+.pair-head .wt{font-size:30px;font-weight:700;letter-spacing:-.03em;line-height:1.25}
+.pair-arrow{color:var(--accent);margin:0 4px}
+.pair-head .wd{font-size:15.5px;line-height:1.7;color:var(--n700);max-width:720px}
+.pair-body{display:grid;grid-template-columns:minmax(0,1fr) 56px minmax(0,1fr);gap:0;padding:22px 32px 8px;align-items:start}
+.pair-col .wk-img{border-radius:4px}
+.pair-col .phase-tag{display:block;margin-top:16px;font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--accent)}
+.pair-col h4{font-size:20px;font-weight:700;letter-spacing:-.02em;margin:6px 0 8px}
+.pair-col p{font-size:14.5px;line-height:1.7;color:var(--n700)}
+.pair-link{align-self:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;margin-top:-90px}
+.pair-link::before{content:"→";display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;font-size:18px;font-weight:700}
+.pair-link span{font-size:11px;font-weight:700;color:var(--n700);text-align:center;line-height:1.3;word-break:keep-all}
+.pair-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 32px 26px;flex-wrap:wrap}
+.pair-foot .wr{display:flex;gap:6px;flex-wrap:wrap}
+.pair-foot .go{font-size:13.5px;font-weight:700}
+.wk-pair:hover .pair-foot .go{color:var(--accent)}
+@media (max-width:900px){
+  .pair-head{padding:24px 22px 4px}.pair-head .wt{font-size:24px}
+  .pair-body{grid-template-columns:minmax(0,1fr);padding:18px 22px 4px;gap:8px}
+  .pair-link{margin:4px 0;flex-direction:row;justify-content:flex-start}
+  .pair-link::before{content:"↓";width:32px;height:32px;font-size:15px}
+  .pair-foot{padding:12px 22px 22px}
+}
+
+/* STAR: align sections across the 3 cards with subgrid */
+.star-grid{grid-template-rows:none;row-gap:20px}
+@media (min-width:901px){
+  .star-card{display:grid;grid-row:span 6;grid-template-rows:subgrid;row-gap:14px;align-content:start}
+  .star-card dl{display:contents}
+  .star-card dl>div{margin:0}
+  .star-card dl>div:last-child{margin:4px -6px 0}
+  .star-card h3{margin-bottom:8px}
+  .star-link{margin-top:6px;align-self:end}
+}
