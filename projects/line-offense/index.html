@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Godot 횡스크롤 라인 오펜스 — 김예찬</title>
+<meta name="description" content="에르엘워즈를 레퍼런스로 만든 Godot 횡스크롤 라인 오펜스 졸업 프로젝트. 컴포넌트, FSM, 라인 격리, 세이브 구조의 설계 판단을 적었습니다.">
+<meta property="og:title" content="Godot 횡스크롤 라인 오펜스 — 김예찬">
+<meta property="og:description" content="1인 개발 졸업 프로젝트. 설계 판단 5건과 그 한계를 기록했습니다.">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+<div class="shell" id="top">
+
+<header class="nav">
+  <a href="../../index.html" class="nav-brand">김예찬 <span>/ Project</span></a>
+  <nav class="nav-links"><a href="../../index.html#work">← Work</a><a href="#key">핵심 판단</a><a href="#all">전체 기록</a></nav>
+</header>
+
+<section class="hero proj-hero">
+  <div class="kicker">GRADUATION PROJECT · 2023.11 — 2024.11</div>
+  <h1>Godot 횡스크롤 라인 오펜스</h1>
+  <p>여러 라인에서 유닛이 진격하고 맞붙는 횡스크롤 라인 오펜스입니다. 게임빌의 에르엘워즈를 레퍼런스로 삼았고, 유닛을 컴포넌트와 상태 노드로 조립하는 구조를 직접 설계했습니다. 1인 개발 졸업 프로젝트입니다.</p>
+  <div class="tags role-tags"><span class="tag tag-role">기획</span><span class="tag tag-role">개발</span><span class="tag tag-role">구조 설계</span></div>
+  <div class="btn-row"><a class="btn btn-primary" href="#key">핵심 판단 보기</a><a class="btn" href="https://github.com/dpcks9677/Project_YEC" target="_blank" rel="noopener">GitHub ↗</a></div>
+</section>
+
+<section class="section play">
+  <div class="kicker">PLAY</div>
+  <div class="play-grid">
+    <figure>
+      <img src="../../images/offense-game.webp" alt="횡스크롤 라인 오펜스 게임 플레이 화면" loading="lazy" decoding="async">
+      <figcaption>Godot 4 · 스테이지 플레이 화면</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section">
+  <div class="split2">
+    <div class="cell"><h3 class="sub">프로젝트</h3><p>수원대학교 졸업 프로젝트 · 1인 개발. 커밋 163개(2023.11 — 2024.07 공개 레포 기준). 아군 11종, 적 8종 유닛.</p></div><div class="cell"><h3 class="sub">스택</h3><p>Godot 4 · GDScript · Path2D · Autoload 싱글톤 · JSON 세이브</p></div>
+  </div>
+</section>
+
+<section class="section" id="key">
+  <div class="kicker">KEY DECISIONS</div>
+  <h2 class="title-sm">핵심 판단 3건</h2>
+  <p class="lead" style="margin-top:14px;max-width:760px">컴포넌트 조립, 라인 격리, FSM 전환. 각 항목은 상황 → 결정 → 이유 → 한계 순서입니다.</p>
+  <div class="jd-list">
+<details class="jd" open id="j2"><summary><span class="jd-no">02</span><span class="jd-title">유닛을 컴포넌트로 조립한다</span></summary><dl><div class="jd-row"><dt>상황</dt><dd>유닛마다 체력, 공격 범위, 회복 범위, 효과 같은 기능을 조합해야 했다.</dd></div><div class="jd-row"><dt>결정</dt><dd>기능을 체력바, 공격 범위, 회복 범위, 효과 컴포넌트로 나누고, 유닛 씬에 필요한 컴포넌트만 붙여 만들게 했다(1/3 컴포넌트화 완료).</dd></div><div class="jd-row"><dt>이유</dt><dd>새 유닛을 만들 때 코드를 복사하지 않고 컴포넌트 조합만으로 끝내기 위해서다.</dd></div><div class="jd-row limit"><dt>한계</dt><dd>컴포넌트끼리 직접 참조하는 부분이 남아, 7월에 상태 컴포넌트의 결합도를 다시 낮추는 작업을 했다.</dd></div></dl></details>
+<details class="jd" id="j3"><summary><span class="jd-no">03</span><span class="jd-title">라인 간 전투를 엔진 물리로 격리한다</span></summary><dl><div class="jd-row"><dt>상황</dt><dd>여러 라인의 유닛이 한 화면에 있으면 다른 라인의 유닛과 충돌하거나 교전하면 안 된다.</dd></div><div class="jd-row"><dt>결정</dt><dd>라인마다 Path2D로 이동 경로를 나누고(1/22), 물리 충돌 레이어와 마스크를 라인별로 매핑해 라인별 독립 전투를 구현했다(2/2).</dd></div><div class="jd-row"><dt>이유</dt><dd>&quot;같은 라인인지&quot; 확인하는 필터링 코드를 따로 두지 않고, 엔진의 물리 판정만으로 격리하기 위해서다.</dd></div><div class="jd-row limit"><dt>한계</dt><dd>물리 레이어 수에 한도가 있어 라인 수를 크게 늘리면 매핑을 다시 설계해야 한다.</dd></div></dl></details>
+<details class="jd" id="j4"><summary><span class="jd-no">04</span><span class="jd-title">교전 컴포넌트를 상태 컴포넌트(FSM)로 바꾼다</span></summary><dl><div class="jd-row"><dt>상황</dt><dd>처음에는 교전 처리 컴포넌트(engageComponent) 하나가 유닛의 행동을 맡았다. 넉백 같은 추가 상태를 넣으려면 이 컴포넌트가 계속 커져야 했다.</dd></div><div class="jd-row"><dt>결정</dt><dd>상태 관리 컴포넌트와 상태 노드로 나눈 FSM으로 교체했다(4/25). 대기, 이동, 사망, 넉백, 근접·원거리 단일·범위 공격, 시전, 범위 회복을 각각 상태 노드로 두었다.</dd></div><div class="jd-row"><dt>이유</dt><dd>넉백과 추가 상태를 구현하려는 것이었다. 상태를 노드로 나누니, 새 유닛은 상태 노드를 조립하는 것만으로 만들 수 있게 됐다.</dd></div><div class="jd-row limit"><dt>한계</dt><dd>상태 전환 규칙이 상태 컴포넌트에 모여 있어, 7월에 결합도를 낮추는 정리를 한 번 더 거쳤다.</dd></div></dl></details>
+  </div>
+</section>
+
+<section class="section" id="all">
+  <div class="kicker">ALL DECISIONS</div>
+  <h2 class="title-sm">나머지 판단 2건</h2>
+  <p class="lead" style="margin-top:14px;max-width:760px">레퍼런스와 장르 선택, 세이브 구조.</p>
+  <div class="jd-list">
+<details class="jd" id="j1"><summary><span class="jd-no">01</span><span class="jd-title">에르엘워즈식 라인 오펜스를 기반으로 삼는다</span></summary><dl><div class="jd-row"><dt>상황</dt><dd>졸업 프로젝트로 1년 안에 혼자 완성할 수 있는 장르가 필요했다.</dd></div><div class="jd-row"><dt>결정</dt><dd>게임빌의 에르엘워즈를 레퍼런스로, 여러 라인에서 유닛이 진격하고 맞붙는 횡스크롤 라인 오펜스를 만들었다. 아군 11종, 적 8종 유닛을 구성했다.</dd></div><div class="jd-row"><dt>이유</dt><dd>유닛을 늘려 갈수록 콘텐츠가 쌓이는 구조라, 기능을 한 번 갖추면 1인 개발로도 볼륨을 키울 수 있다.</dd></div><div class="jd-row limit"><dt>한계</dt><dd>기획은 레퍼런스를 기반으로 했고, 독자적인 규칙 변형은 크지 않다.</dd></div></dl></details>
+<details class="jd" id="j5"><summary><span class="jd-no">05</span><span class="jd-title">세이브 데이터를 한 곳으로 모은다</span></summary><dl><div class="jd-row"><dt>상황</dt><dd>보유 유닛과 슬롯 같은 진행 데이터를 여러 씬에서 읽고 썼다.</dd></div><div class="jd-row"><dt>결정</dt><dd>Autoload 싱글톤(SaveData)에 데이터를 모으고 getter와 setter로만 접근하게 했다. setter가 호출되면 진행 상황을 JSON으로 저장한다(6/2).</dd></div><div class="jd-row"><dt>이유</dt><dd>코드 가독성과 캡슐화를 높이고, 씬이 바뀌어도 데이터가 유지되게 하려는 것이다.</dd></div><div class="jd-row limit"><dt>한계</dt><dd>값이 바뀔 때마다 파일을 쓰기 때문에 쓰기 횟수가 많다. 공개 레포의 마지막 커밋(2024-07) 기준 저장 경로는 res://Saves/이다.</dd></div></dl></details>
+  </div>
+</section>
+
+<section class="contact">
+  <h2>더 궁금한 점이 있다면<br>연락 주세요</h2>
+  <div class="contact-row">
+    <div><div class="contact-lbl">EMAIL</div><a class="contact-val" href="mailto:yechann.dev@gmail.com">yechann.dev@gmail.com</a></div>
+    <div><div class="contact-lbl">BACK</div><a class="contact-val" href="../../index.html#work">포트폴리오 홈</a></div>
+  </div>
+  <div class="copyright">© 2026 Kim Yechan</div>
+</section>
+
+</div>
+</body>
+</html>
