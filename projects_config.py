@@ -13,7 +13,7 @@ PROJECTS = [
         "og": "PM · 전체 기획 · 레벨 디자인. 판단 14건과 그 한계를 기록했습니다.",
         "hero": "2D 탑다운 익스트랙션 슈터. 던전에 들어가 파밍하고, 주기적으로 몰려오는 습격을 쓸어버리며, 제한 시간 안에 탈출하는 게임입니다. 4인 팀에서 PM과 전체 기획을 맡았습니다.",
         "roles": ["PM", "전체 기획 (GDD)", "레벨 디자인", "컷씬 · 퀘스트", "BGM 기획 · 사운드 디렉팅", "서브 프로그래밍"],
-        "buttons": [("primary", "https://www.youtube.com/watch?v=wpbb_FIQQbo", "트레일러 ▶"), ("", "#key", "핵심 판단 보기"), ("", "https://github.com/dpcks9677/shotgun-and-run", "GitHub (공개용)")],
+        "buttons": [("primary", "https://www.youtube.com/watch?v=wpbb_FIQQbo", "트레일러 ▶"), ("", "#key", "핵심 판단 보기"), ("", "https://shotgunandrunreport.super.site/", "팀 보고서 ↗"), ("", "https://github.com/dpcks9677/shotgun-and-run", "GitHub (공개용)")],
         "play": """<section class="section play" id="trailer">
   <div class="kicker">TRAILER</div>
   <div class="play-trailer">
@@ -50,9 +50,9 @@ PROJECTS = [
     </tbody>
   </table></div>
 </section>""",
-        "featured": [2, 3, 9, 11],
-        "key_lead": "시간 제한, 추격 구조, 맵 구조, 업무 분배. 각 항목은 상황 → 결정 → 이유 → 한계 순서입니다.",
-        "all_lead": "보스 제외, 이동 속도와 맵, 퀘스트 구조, 카메라, QA, 아머, BGM, 컷씬 저장, 매니저 분리. 개발 쪽 판단은 13, 14번입니다.",
+        "featured": [2, 3, 9],
+        "key_lead": "시간 제한, 추격 구조, 맵 구조. 눌러서 펼쳐 보세요.",
+        "all_lead": "",
         "extra": {
             9: [
                 ("../../images/shotgun-and-run/map-draft-v21.webp", "도형 초안 v21 · 존(초록)과 홀(갈색), 커넥터(회색) 배치 · 10/14", "스테이지 1 도형 초안 v21"),
@@ -86,9 +86,9 @@ PROJECTS = [
             ("프로젝트", "2026.07.01 첫 커밋 이후 커밋 110개. 1·6·9턴마다 증강 3택 1을 고르는 2인 대전이고, 클래식 4인전도 지원합니다. 6자리 PIN으로 방을 만들어 바로 붙는 실시간 멀티플레이입니다."),
             ("범위", "<b>김예찬</b> 기획 · 시스템 설계 · 개발 (1인)<br>증강 카드 55종, 서버 권위 구조, 주사위 연출 동기화, Unity 이식 구조"),
         ],
-        "featured": [1, 4, 5, 6],
-        "key_lead": "카드 기획, 서버 권위 구조, 주사위 결과 동기화, 후보 풀 보정. 각 항목은 상황 → 결정 → 이유 → 한계 순서입니다.",
-        "all_lead": "Unity 이식 이유, 메타데이터 분리, 어셈블리 구조.",
+        "featured": [1, 4, 5],
+        "key_lead": "카드 기획, 서버 권위 구조, 주사위 결과 동기화. 눌러서 펼쳐 보세요.",
+        "all_lead": "",
         "extra": {},
     },
     {
@@ -113,8 +113,8 @@ PROJECTS = [
             ("프로젝트", "2026.06.05 첫 배포 이후 커밋 80개. 리더보드, 데일리 스트릭, 도전과제, 통계, 실시간 멀티플레이(v1.0.0)를 차례로 붙였고, 9월에는 디스코드 액티비티로 옮겨 음성 채널에서 함께 할 수 있게 했습니다."),
             ("스택", "React 19 · Vite · Firebase (Hosting, Firestore, Auth) · Cloudflare Workers · Discord Embedded App SDK"),
         ],
-        "featured": [1, 2, 3, 4],
-        "key_lead": "데일리 구조, 기록 기준, 변조 방지, 모바일 입력. 각 항목은 상황 → 결정 → 이유 → 한계 순서입니다.",
+        "featured": [1, 2, 3],
+        "key_lead": "데일리 구조, 기록 기준, 변조 방지. 눌러서 펼쳐 보세요.",
         "all_lead": "",
         "extra": {},
     },
@@ -141,8 +141,8 @@ PROJECTS = [
             ("스택", "Godot 4 · GDScript · Path2D · Autoload 싱글톤 · JSON 세이브"),
         ],
         "featured": [2, 3, 4],
-        "key_lead": "컴포넌트 조립, 라인 격리, FSM 전환. 각 항목은 상황 → 결정 → 이유 → 한계 순서입니다.",
-        "all_lead": "레퍼런스와 장르 선택, 세이브 구조.",
+        "key_lead": "컴포넌트 조립, 라인 격리, FSM 전환. 눌러서 펼쳐 보세요.",
+        "all_lead": "",
         "extra": {},
     },
 ]

@@ -16,7 +16,7 @@
 
 <header class="nav">
   <a href="../../index.html" class="nav-brand">김예찬 <span>/ Project</span></a>
-  <nav class="nav-links"><a href="../../index.html#work">← Work</a><a href="#key">핵심 판단</a><a href="#all">전체 기록</a></nav>
+  <nav class="nav-links"><a href="../../index.html#work">← Work</a><a href="#key">핵심 판단</a><a href="decisions.html">전체 판단 기록</a></nav>
 </header>
 
 <section class="hero proj-hero">
@@ -51,25 +51,17 @@
 
 <section class="section" id="key">
   <div class="kicker">KEY DECISIONS</div>
-  <h2 class="title-sm">핵심 판단 4건</h2>
-  <p class="lead" style="margin-top:14px;max-width:760px">카드 기획, 서버 권위 구조, 주사위 결과 동기화, 후보 풀 보정. 각 항목은 상황 → 결정 → 이유 → 한계 순서입니다.</p>
+  <h2 class="title-sm">핵심 판단 3건</h2>
+  <p class="lead" style="margin-top:14px;max-width:760px">카드 기획, 서버 권위 구조, 주사위 결과 동기화. 눌러서 펼쳐 보세요.</p>
   <div class="jd-list">
-<details class="jd" open id="j1"><summary><span class="jd-no">01</span><span class="jd-title">요트 다이스 위에 증강 55종을 얹었다</span></summary><dl><div class="jd-row"><dt>상황</dt><dd>클래식 요트 다이스는 족보 규칙이 명확하다. 이 규칙 위에 판마다 전략이 달라지는 시스템을 얹고 싶었다.</dd></div><div class="jd-row"><dt>결정</dt><dd>게임을 3개 페이즈로 나눠 1턴, 6턴, 9턴에 증강을 무작위 3택 1로 고르게 했다. 증강은 퀘스트, 사보타주 등 5가지 타입, 총 55종이다.</dd></div><div class="jd-row"><dt>이유</dt><dd>페이즈가 뒤로 갈수록 변동폭이 큰 하이 리스크 하이 리턴 옵션이 나오게 해, 후반 역전 여지를 남겼다.</dd></div><div class="jd-row limit"><dt>한계</dt><dd>페이즈별 점수 변동 상한은 명세서에 &quot;추후 검토 필요&quot;로 남아 있다. 55종의 밸런스를 통계로 검증한 자료는 없다.</dd></div></dl></details>
+<details class="jd" id="j1"><summary><span class="jd-no">01</span><span class="jd-title">요트 다이스 위에 증강 55종을 얹었다</span></summary><dl><div class="jd-row"><dt>상황</dt><dd>클래식 요트 다이스는 족보 규칙이 명확하다. 이 규칙 위에 판마다 전략이 달라지는 시스템을 얹고 싶었다.</dd></div><div class="jd-row"><dt>결정</dt><dd>게임을 3개 페이즈로 나눠 1턴, 6턴, 9턴에 증강을 무작위 3택 1로 고르게 했다. 증강은 퀘스트, 사보타주 등 5가지 타입, 총 55종이다.</dd></div><div class="jd-row"><dt>이유</dt><dd>페이즈가 뒤로 갈수록 변동폭이 큰 하이 리스크 하이 리턴 옵션이 나오게 해, 후반 역전 여지를 남겼다.</dd></div><div class="jd-row limit"><dt>한계</dt><dd>페이즈별 점수 변동 상한은 명세서에 &quot;추후 검토 필요&quot;로 남아 있다. 55종의 밸런스를 통계로 검증한 자료는 없다.</dd></div></dl></details>
 <details class="jd" id="j4"><summary><span class="jd-no">04</span><span class="jd-title">점수 판정을 서버가 소유한다 (릴레이에서 권위 서버로)</span></summary><dl><div class="jd-row"><dt>상황</dt><dd>초기에는 클라이언트가 계산하고 서버는 메시지를 중계했다. 증강 선택 동기화, 2P 모달이 강제로 닫히는 레이싱, 3인 이상 기권 오인과 3P 승리 역전 같은 상태 불일치 버그가 7월 하순에 반복해서 나왔다.</dd></div><div class="jd-row"><dt>대안</dt><dd>클라이언트 판정과 릴레이를 유지하면서 버그를 하나씩 고치는 방식.</dd></div><div class="jd-row"><dt>결정</dt><dd>턴, 점수, 증강 규칙을 서버가 판정하는 권위 서버로 옮겼다(8/1). 클라이언트는 표현만 맡고, 클라이언트가 보낸 결과값은 믿지 않는다.</dd></div><div class="jd-row"><dt>이유</dt><dd>실시간 대전에서 두 클라이언트의 상태가 갈라지지 않게 하려는 것이다.</dd></div><div class="jd-row limit"><dt>한계</dt><dd>계획 문서 기준으로 서버 통합 테스트는 매치메이킹 2인 흐름만 보장했고, 일반 로비 3·4인 검증은 추가로 필요했다.</dd></div></dl></details>
 <details class="jd" id="j5"><summary><span class="jd-no">05</span><span class="jd-title">주사위 결과: 값 선결정과 회전 보정 대신 서버 확정 프리셋 재생</span></summary><dl><div class="jd-row"><dt>상황</dt><dd>서버가 주사위 값을 먼저 뽑고, 클라이언트는 별도 물리를 돌렸다. 그래서 실제로 멈춘 면과 서버 값이 어긋날 수 있었다.</dd></div><div class="jd-row"><dt>검토한 대안</dt><dd>(A) 서버 값에 맞춰 마지막에 주사위를 돌려 보정한다. 결과를 조작하는 것처럼 보여 제외했다. (B) 서버가 고정 스텝 물리로 결과를 정한다. 계획서와 로컬 구현, 자동 검증까지 마쳤다. (C) 서버가 결과와 프리셋(미리 시뮬레이션한 궤적)을 확정하고 클라이언트는 재생만 한다.</dd></div><div class="jd-row"><dt>결정</dt><dd>C안, 프리셋 베이킹을 채택했다. 서버가 결과값, 프리셋 번호, 시작 시각을 확정해 보내고 두 클라이언트가 같은 프레임부터 재생한다.</dd></div><div class="jd-row"><dt>이유</dt><dd>서버 CPU 비용, 물리 결과의 재현·동기화 불안, 구현 복잡도와 일정 때문이다.</dd></div><div class="jd-row limit"><dt>한계</dt><dd>서버 물리는 비공개 canary의 CPU 검증 전에 접어서 실제 비용을 측정하지 못했다. 계획서에는 온라인 수동 확인도 남아 있다.</dd></div></dl></details>
-<details class="jd" id="j6"><summary><span class="jd-no">06</span><span class="jd-title">증강 후보 풀 규칙을 보정한다</span></summary><dl><div class="jd-row"><dt>상황</dt><dd>플레이하다 보니 1페이즈 전용 증강(차근차근, 재빠른 스트레이트)이 2페이즈 후보에도 나왔다. 이미 가진 증강이 다음 드래프트에 다시 나오기도 했다.</dd></div><div class="jd-row"><dt>결정</dt><dd>1페이즈 전용 증강은 2페이즈 이후 후보에서 빼고, 이미 보유한 증강은 이후 후보 풀에서 제외했다. 설명 문구에는 &quot;(1페이즈 전용)&quot;을 표기했다.</dd></div><div class="jd-row"><dt>이유</dt><dd>선택지가 의미 없이 반복되거나 쓸 수 없는 카드가 나오는 상황을 막으려는 것이다.</dd></div><div class="jd-row limit"><dt>한계</dt><dd>증강이 늘 때마다 후보 조건 보정이 다시 필요했다(8/4 알박기 후보 조건). 후보 조건을 한 곳에서 관리하는 구조로는 아직 정리하지 못했다.</dd></div></dl></details>
   </div>
 </section>
 
-<section class="section" id="all">
-  <div class="kicker">ALL DECISIONS</div>
-  <h2 class="title-sm">나머지 판단 3건</h2>
-  <p class="lead" style="margin-top:14px;max-width:760px">Unity 이식 이유, 메타데이터 분리, 어셈블리 구조.</p>
-  <div class="jd-list">
-<details class="jd" id="j2"><summary><span class="jd-no">02</span><span class="jd-title">룰은 웹에서 먼저 검증하고, 엔진을 Unity로 옮긴다</span></summary><dl><div class="jd-row"><dt>상황</dt><dd>같은 게임을 웹 버전(Phase 1)과 Unity 6 3D 버전 Tessera(Phase 2)로 나눠 만들고 있다.</dd></div><div class="jd-row"><dt>결정</dt><dd>웹 실시간 멀티플레이로 룰을 먼저 다듬은 뒤, 그 룰 엔진을 Unity 6 URP 기반 3D 테이블탑으로 이식 중이다.</dd></div><div class="jd-row"><dt>이유</dt><dd>3D 연출을 확장하고, 싱글플레이 모드를 추가하고, Unity 역량을 보이기 위해서다.</dd></div><div class="jd-row limit"><dt>한계</dt><dd>Unity 쪽은 개발 중이다. 웹 수준의 온라인 기능이 이식됐는지는 이 문서에서 확인하지 않았다.</dd></div></dl></details>
-<details class="jd" id="j3"><summary><span class="jd-no">03</span><span class="jd-title">증강 메타데이터를 코드와 분리한다</span></summary><dl><div class="jd-row"><dt>상황</dt><dd>55종 증강의 이름, 설명, 분류를 코드에 흩어 두면 추가할 때마다 여러 곳을 고쳐야 한다.</dd></div><div class="jd-row"><dt>결정</dt><dd>증강 메타데이터를 JSON(<code>augments.json</code>)으로 분리하고, 검증 스크립트와 회귀 테스트를 붙였다. 테스트는 2026-08-10 기록 기준 31개 파일이다.</dd></div><div class="jd-row"><dt>이유</dt><dd>메타데이터의 추가와 수정을 코드와 따로 다루고, 엔진을 바꿔도 같은 메타데이터를 가져가기 위해서다.</dd></div><div class="jd-row limit"><dt>한계</dt><dd>JSON에는 메타데이터만 있고, 증강 효과의 로직은 <code>scoreEngine.js</code> 코드에 있다. 효과까지 데이터로 옮긴 완전한 데이터 주도 구조는 아니다.</dd></div></dl></details>
-<details class="jd" id="j7"><summary><span class="jd-no">07</span><span class="jd-title">Unity 쪽은 도메인별 어셈블리로 나눈다</span></summary><dl><div class="jd-row"><dt>상황</dt><dd>Tessera에서 기존 주사위 컨텐츠 외에 싱글플레이 게임과 온라인 기능을 붙일 예정이다.</dd></div><div class="jd-row"><dt>결정</dt><dd>Core, Dice, Tabletop, Rendering, Games, Network 어셈블리로 나눴다.</dd></div><div class="jd-row"><dt>이유</dt><dd>신규 게임 모드와 온라인 기능을 서로 영향 없이 독립적으로 붙이기 위해서다.</dd></div><div class="jd-row limit"><dt>한계</dt><dd>개발 중이라 이 경계가 실제로 맞는지는 새 모드를 붙여 봐야 확인된다.</dd></div></dl></details>
-  </div>
+<section class="section">
+  <a class="btn" href="decisions.html">전체 판단 기록 7건 보기 →</a>
 </section>
 
 <section class="contact">

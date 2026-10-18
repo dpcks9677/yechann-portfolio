@@ -16,7 +16,7 @@
 
 <header class="nav">
   <a href="../../index.html" class="nav-brand">김예찬 <span>/ Project</span></a>
-  <nav class="nav-links"><a href="../../index.html#work">← Work</a><a href="#key">핵심 판단</a></nav>
+  <nav class="nav-links"><a href="../../index.html#work">← Work</a><a href="#key">핵심 판단</a><a href="decisions.html">전체 판단 기록</a></nav>
 </header>
 
 <section class="hero proj-hero">
@@ -47,14 +47,17 @@
 
 <section class="section" id="key">
   <div class="kicker">KEY DECISIONS</div>
-  <h2 class="title-sm">핵심 판단 4건</h2>
-  <p class="lead" style="margin-top:14px;max-width:760px">데일리 구조, 기록 기준, 변조 방지, 모바일 입력. 각 항목은 상황 → 결정 → 이유 → 한계 순서입니다.</p>
+  <h2 class="title-sm">핵심 판단 3건</h2>
+  <p class="lead" style="margin-top:14px;max-width:760px">데일리 구조, 기록 기준, 변조 방지. 눌러서 펼쳐 보세요.</p>
   <div class="jd-list">
-<details class="jd" open id="j1"><summary><span class="jd-no">01</span><span class="jd-title">모두에게 매일 같은 50키를 준다</span></summary><dl><div class="jd-row"><dt>상황</dt><dd>워들 같은 데일리 퍼즐 형식을 반응속도 게임에 가져오고 싶었다.</dd></div><div class="jd-row"><dt>결정</dt><dd>날짜를 시드로 쓰는 난수 생성기(Mulberry32)로 하루 한 번 50개의 방향키 시퀀스를 만들고, 모든 플레이어가 같은 시퀀스를 받게 했다.</dd></div><div class="jd-row"><dt>이유</dt><dd>매일 다시 들어올 이유를 만들고, 같은 문제를 푼 친구끼리 기록을 공유하고 비교하게 하려는 것이다. 스트릭과 도전과제를 이 흐름에 붙였다.</dd></div><div class="jd-row limit"><dt>한계</dt><dd>시드가 기기 로컬 날짜 기준이라, 시간대가 다르면 같은 순간에 다른 시퀀스를 받는다. 재방문율 같은 운영 수치는 아직 정리하지 않았다.</dd></div></dl></details>
+<details class="jd" id="j1"><summary><span class="jd-no">01</span><span class="jd-title">모두에게 매일 같은 50키를 준다</span></summary><dl><div class="jd-row"><dt>상황</dt><dd>워들 같은 데일리 퍼즐 형식을 반응속도 게임에 가져오고 싶었다.</dd></div><div class="jd-row"><dt>결정</dt><dd>날짜를 시드로 쓰는 난수 생성기(Mulberry32)로 하루 한 번 50개의 방향키 시퀀스를 만들고, 모든 플레이어가 같은 시퀀스를 받게 했다.</dd></div><div class="jd-row"><dt>이유</dt><dd>매일 다시 들어올 이유를 만들고, 같은 문제를 푼 친구끼리 기록을 공유하고 비교하게 하려는 것이다. 스트릭과 도전과제를 이 흐름에 붙였다.</dd></div><div class="jd-row limit"><dt>한계</dt><dd>시드가 기기 로컬 날짜 기준이라, 시간대가 다르면 같은 순간에 다른 시퀀스를 받는다. 재방문율 같은 운영 수치는 아직 정리하지 않았다.</dd></div></dl></details>
 <details class="jd" id="j2"><summary><span class="jd-no">02</span><span class="jd-title">개인 최고기록은 리더보드에 올라가는 기록만 남긴다</span></summary><dl><div class="jd-row"><dt>상황</dt><dd>클리어할 때마다 개인 최고기록을 갱신했다. 그래서 리더보드에 등록되는 기록과 개인 기록의 기준이 달랐다.</dd></div><div class="jd-row"><dt>결정</dt><dd>최고기록 저장 시점을 리더보드 등록 시점으로 옮겼다(6/8, v0.5.1).</dd></div><div class="jd-row"><dt>이유</dt><dd>리더보드와 개인 기록이 같은 기준을 써야 기록의 의미가 맞는다.</dd></div><div class="jd-row limit"><dt>한계</dt><dd>반복 플레이 기록을 따로 보여 주는 화면은 아직 없다.</dd></div></dl></details>
 <details class="jd" id="j3"><summary><span class="jd-no">03</span><span class="jd-title">클라이언트 데이터 변조를 막는다</span></summary><dl><div class="jd-row"><dt>상황</dt><dd>기록과 스트릭이 로컬 스토리지에 있어서, 값을 직접 고쳐 리더보드에 올릴 수 있었다.</dd></div><div class="jd-row"><dt>결정</dt><dd>로컬 데이터를 AES로 암호화하고, 무결성 해시가 맞지 않으면 데이터를 초기화하게 했다. DB 규칙에서는 불가능한 값의 입력을 막았다(6/11).</dd></div><div class="jd-row"><dt>이유</dt><dd>랭킹 게임은 기록을 믿을 수 있어야 경쟁이 성립한다.</dd></div><div class="jd-row limit"><dt>한계</dt><dd>암호화 키가 클라이언트 코드에 있어서, 로컬 암호화만으로는 완전히 막을 수 없다. 실질적인 방어선은 서버 쪽 DB 규칙이다.</dd></div></dl></details>
-<details class="jd" id="j4"><summary><span class="jd-no">04</span><span class="jd-title">모바일 입력을 포인터 이벤트 하나로 통합한다</span></summary><dl><div class="jd-row"><dt>상황</dt><dd>모바일 D-PAD에서 touchstart와 mousedown이 연달아 발생해 한 번 눌러도 두 번 입력됐다. 반응속도 게임에서는 치명적인 오입력이다.</dd></div><div class="jd-row"><dt>결정</dt><dd>두 핸들러를 pointerdown 하나로 바꿨다(6/19).</dd></div><div class="jd-row"><dt>이유</dt><dd>터치와 클릭을 하나의 이벤트로 받아 한 번의 입력만 인식하게 하려는 것이다.</dd></div><div class="jd-row limit"><dt>한계</dt><dd>기기별 입력 지연을 측정한 자료는 없다.</dd></div></dl></details>
   </div>
+</section>
+
+<section class="section">
+  <a class="btn" href="decisions.html">전체 판단 기록 4건 보기 →</a>
 </section>
 
 <section class="contact">

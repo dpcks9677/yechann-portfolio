@@ -92,8 +92,9 @@ def build(P):
     how, items = parse(src)
     by_no = {i["no"]: i for i in items}
     feats = P["featured"]
-    featured = "\n".join(render_item(by_no[n], P["extra"], open_=(n == feats[0])) for n in feats)
+    featured = "\n".join(render_item(by_no[n], P["extra"]) for n in feats)
     rest = "\n".join(render_item(i, P["extra"]) for i in items if i["no"] not in feats)
+    everything = "\n".join(render_item(i, P["extra"]) for i in items)
     btns = "".join(
         f'<a class="btn{" btn-primary" if k == "primary" else ""}" href="{h}"'
         + ("" if h.startswith("#") else ' target="_blank" rel="noopener"') + f">{t}</a>"
@@ -101,10 +102,6 @@ def build(P):
     )
     cells = "".join(f'<div class="cell"><h3 class="sub">{h}</h3><p>{p}</p></div>' for h, p in P["cells"])
     page = TEMPLATE
-    if not rest:
-        i = page.index('<section class="section" id="all">'); j = page.index("</section>", i) + len("</section>\n\n")
-        page = page[:i] + page[j:]
-        page = page.replace('<a href="#all">전체 기록</a>', "")
     for k, v in {
         "{{TITLE}}": P["title"], "{{KICKER}}": P["kicker"], "{{DESC}}": P["desc"], "{{OG}}": P["og"],
         "{{HERO}}": P["hero"], "{{ROLES}}": tags(P["roles"]), "{{BUTTONS}}": btns, "{{PLAY}}": P["play"],
@@ -112,15 +109,19 @@ def build(P):
         "{{AFTER_CELLS}}": P.get("after_cells", ""),
         "{{HERO_CLASS}}": " has-bg" if P.get("hero_bg") else "",
         "{{HERO_STYLE}}": f' style="background-image:url({P["hero_bg"]})"' if P.get("hero_bg") else "",
-        "{{FEATURED_N}}": f"{len(feats)}건", "{{KEY_LEAD}}": P["key_lead"], "{{ALL_LEAD}}": P["all_lead"],
-        "{{FEATURED}}": featured, "{{REST}}": rest, "{{REST_COUNT}}": str(len(items) - len(feats)),
+        "{{FEATURED_N}}": f"{len(feats)}건", "{{KEY_LEAD}}": P["key_lead"],
+        "{{FEATURED}}": featured, "{{TOTAL}}": str(len(items)),
         "{{PRETENDARD}}": PRETENDARD,
     }.items():
         page = page.replace(k, v)
     os.makedirs(out_dir, exist_ok=True)
     with open(os.path.join(out_dir, "index.html"), "w", encoding="utf-8") as f:
         f.write(page)
-    print(f"[OK] projects/{P['slug']}/index.html ({len(items)} judgments)")
+    dp = DECISIONS.replace("{{TITLE}}", P["title"]).replace("{{TOTAL}}", str(len(items))) \
+        .replace("{{ALL_LEAD}}", P["all_lead"]).replace("{{ALL}}", everything).replace("{{PRETENDARD}}", PRETENDARD)
+    with open(os.path.join(out_dir, "decisions.html"), "w", encoding="utf-8") as f:
+        f.write(dp)
+    print(f"[OK] projects/{P['slug']}/index.html + decisions.html ({len(items)} judgments)")
 
 
 TEMPLATE = """<!DOCTYPE html>
@@ -141,7 +142,7 @@ TEMPLATE = """<!DOCTYPE html>
 
 <header class="nav">
   <a href="../../index.html" class="nav-brand">김예찬 <span>/ Project</span></a>
-  <nav class="nav-links"><a href="../../index.html#work">← Work</a><a href="#key">핵심 판단</a><a href="#all">전체 기록</a></nav>
+  <nav class="nav-links"><a href="../../index.html#work">← Work</a><a href="#key">핵심 판단</a><a href="decisions.html">전체 판단 기록</a></nav>
 </header>
 
 <section class="hero proj-hero{{HERO_CLASS}}"{{HERO_STYLE}}>
@@ -171,13 +172,8 @@ TEMPLATE = """<!DOCTYPE html>
   </div>
 </section>
 
-<section class="section" id="all">
-  <div class="kicker">ALL DECISIONS</div>
-  <h2 class="title-sm">나머지 판단 {{REST_COUNT}}건</h2>
-  <p class="lead" style="margin-top:14px;max-width:760px">{{ALL_LEAD}}</p>
-  <div class="jd-list">
-{{REST}}
-  </div>
+<section class="section">
+  <a class="btn" href="decisions.html">전체 판단 기록 {{TOTAL}}건 보기 →</a>
 </section>
 
 <section class="contact">
@@ -189,6 +185,41 @@ TEMPLATE = """<!DOCTYPE html>
   <div class="copyright">© 2026 Kim Yechan</div>
 </section>
 
+</div>
+</body>
+</html>
+"""
+
+DECISIONS = """<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}} 판단 기록 — 김예찬</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="{{PRETENDARD}}">
+<link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+<div class="shell" id="top">
+<header class="nav">
+  <a href="../../index.html" class="nav-brand">김예찬 <span>/ Project</span></a>
+  <nav class="nav-links"><a href="index.html">← {{TITLE}}</a><a href="../../index.html#work">Work</a></nav>
+</header>
+<section class="section">
+  <div class="kicker">ALL DECISIONS</div>
+  <h2 class="title-sm">{{TITLE}} 판단 기록 {{TOTAL}}건</h2>
+  <p class="lead" style="margin-top:14px;max-width:760px">{{ALL_LEAD}}각 항목은 상황 → 결정 → 이유 → 한계 순서입니다.</p>
+  <div class="jd-list">
+{{ALL}}
+  </div>
+</section>
+<section class="contact">
+  <div class="contact-row">
+    <div><div class="contact-lbl">BACK</div><a class="contact-val" href="index.html">{{TITLE}} 소개로</a></div>
+  </div>
+  <div class="copyright">© 2026 Kim Yechan</div>
+</section>
 </div>
 </body>
 </html>
