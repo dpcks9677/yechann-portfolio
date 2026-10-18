@@ -101,6 +101,10 @@ def build(P):
     )
     cells = "".join(f'<div class="cell"><h3 class="sub">{h}</h3><p>{p}</p></div>' for h, p in P["cells"])
     page = TEMPLATE
+    if not rest:
+        i = page.index('<section class="section" id="all">'); j = page.index("</section>", i) + len("</section>\n\n")
+        page = page[:i] + page[j:]
+        page = page.replace('<a href="#all">전체 기록</a>', "")
     for k, v in {
         "{{TITLE}}": P["title"], "{{KICKER}}": P["kicker"], "{{DESC}}": P["desc"], "{{OG}}": P["og"],
         "{{HERO}}": P["hero"], "{{ROLES}}": tags(P["roles"]), "{{BUTTONS}}": btns, "{{PLAY}}": P["play"],

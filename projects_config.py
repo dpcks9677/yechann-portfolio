@@ -72,4 +72,31 @@ PROJECTS = [
         "all_lead": "Unity 이식 이유, 메타데이터 분리, 어셈블리 구조.",
         "extra": {},
     },
+    {
+        "slug": "daily-arrow",
+        "title": "Daily Arrow",
+        "kicker": "SOLO PROJECT · 2026.06 — 운영 중",
+        "desc": "매일 같은 50키 시퀀스로 겨루는 반응속도 랭킹 웹 미니게임. 데일리 구조와 운영 중 고친 문제들을 상황, 결정, 이유, 한계로 적었습니다.",
+        "og": "데일리 구조 기획 · 개발 · 운영. 판단 4건과 그 한계를 기록했습니다.",
+        "hero": "자정마다 바뀌는 50개의 방향키를 가장 빠르게 입력해 겨루는 반응속도 웹 미니게임입니다. 데일리 퍼즐 형식을 반응속도 게임에 가져왔고, 기획부터 배포와 운영까지 혼자 맡았습니다.",
+        "roles": ["기획", "개발", "운영"],
+        "buttons": [("primary", "#key", "핵심 판단 보기"), ("", "https://daily-arrow.web.app", "플레이 ↗"), ("", "https://github.com/dpcks9677/daily-arrow-game", "GitHub ↗")],
+        "play": """<section class="section play">
+  <div class="kicker">PLAY</div>
+  <div class="play-grid">
+    <figure>
+      <img src="../../images/daily-arrow.webp" alt="Daily Arrow 플레이 화면" loading="lazy" decoding="async">
+      <figcaption>Daily Arrow · 웹 · 배포 중</figcaption>
+    </figure>
+  </div>
+</section>""",
+        "cells": [
+            ("프로젝트", "2026.06.05 첫 배포 이후 커밋 80개. 리더보드, 데일리 스트릭, 도전과제, 통계, 실시간 멀티플레이(v1.0.0)를 차례로 붙였고, 9월에는 디스코드 액티비티로 옮겨 음성 채널에서 함께 할 수 있게 했습니다."),
+            ("스택", "React 19 · Vite · Firebase (Hosting, Firestore, Auth) · Cloudflare Workers · Discord Embedded App SDK"),
+        ],
+        "featured": [1, 2, 3, 4],
+        "key_lead": "데일리 구조, 기록 기준, 변조 방지, 모바일 입력. 각 항목은 상황 → 결정 → 이유 → 한계 순서입니다.",
+        "all_lead": "",
+        "extra": {},
+    },
 ]
