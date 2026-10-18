@@ -358,3 +358,15 @@ a.work-item:hover .wt{color:var(--accent)}
   .blog-hero h1{font-size:32px}
   .author-card{flex-direction:column;text-align:center}
 }
+
+/* STAR summary */
+.star-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--n300);margin-top:24px}
+.star-card{padding:24px 22px 22px;border-right:1px solid var(--n300);border-bottom:1px solid var(--n300);display:flex;flex-direction:column}
+.star-card:last-child{border-right:0}
+.star-card h3{font-size:16px;line-height:1.45;margin:0 0 16px}
+.star-card dl{margin:0;flex:1}
+.star-card dl>div{margin-bottom:12px}
+.star-card dt{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent,#ec3013);font-weight:700;margin-bottom:3px}
+.star-card dd{margin:0;font-size:14px;line-height:1.65}
+.star-link{margin-top:10px;font-size:13px;font-weight:600;text-decoration:none}
+@media (max-width:900px){.star-grid{grid-template-columns:1fr}.star-card{border-right:0}}
