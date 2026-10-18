@@ -237,6 +237,62 @@ h3.sub{font-size:19px;font-weight:700}
 .blog-footer-bottom a{color:#aaa}
 .blog-footer-bottom a:hover{color:#fff}
 
+/* ==========================================================================
+   WORK LIST & PROJECT DETAIL
+   ========================================================================== */
+.work-list{margin-top:26px;border-top:2px solid var(--divider)}
+.work-item{display:grid;grid-template-columns:100px minmax(0,1fr) auto;gap:8px 24px;align-items:start;padding:24px 0;border-bottom:1px solid var(--n300);transition:background .12s}
+a.work-item:hover{background:rgba(32,30,29,.025)}
+.work-item .yr{font-size:14px;font-weight:700;color:var(--accent);padding-top:5px}
+.work-item .wt{font-size:24px;font-weight:700;letter-spacing:-.02em;line-height:1.3}
+a.work-item:hover .wt{color:var(--accent)}
+.work-item .wd{font-size:15.5px;line-height:1.7;color:var(--n800);margin-top:8px;max-width:720px;text-wrap:pretty}
+.work-item .wr{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end;max-width:260px;padding-top:4px}
+.work-item .go{font-size:13.5px;font-weight:600;color:var(--accent-700);margin-top:10px;display:inline-block}
+.tag-role{border-color:var(--accent);color:var(--accent-700);font-weight:600}
+
+.proj-hero h1{font-size:72px}
+.role-tags{margin-top:26px}
+.how{margin:20px 0 0;max-width:780px;font-size:16px;line-height:1.8}
+.how p{margin-bottom:12px}
+
+.jd-list{display:flex;flex-direction:column;margin-top:28px;border-top:2px solid var(--divider)}
+.jd{border-bottom:1px solid var(--n300)}
+.jd summary{display:flex;align-items:baseline;gap:16px;padding:18px 0;cursor:pointer;list-style:none}
+.jd summary::-webkit-details-marker{display:none}
+.jd summary::after{content:"+";margin-left:auto;font-size:22px;font-weight:400;color:var(--n700);flex:none;padding-left:8px}
+.jd[open] summary::after{content:"−"}
+.jd summary:hover .jd-title{color:var(--accent)}
+.jd-no{font-size:13px;font-weight:700;color:var(--accent);flex:none}
+.jd-title{font-size:19px;font-weight:700;letter-spacing:-.015em;line-height:1.4}
+.jd-badge{font-size:12.5px;color:var(--n700);border:1px solid var(--n400);padding:3px 8px;flex:none;white-space:nowrap}
+.jd dl{margin:0 0 22px;padding:0 0 0 38px;display:flex;flex-direction:column}
+.jd-row{display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;padding:10px 0;border-top:1px solid var(--n200)}
+.jd-row:first-child{border-top:none}
+.jd dt{font-size:13.5px;font-weight:700;color:var(--n700)}
+.jd dd{margin:0;font-size:15.5px;line-height:1.75;color:var(--n900);text-wrap:pretty}
+.jd-row.limit dt{color:var(--accent-700)}
+.jd-row.who dd{color:var(--n700)}
+
+@media (max-width:900px){
+  .work-item{grid-template-columns:minmax(0,1fr)}
+  .work-item .wr{justify-content:flex-start;max-width:none}
+  .proj-hero h1{font-size:44px}
+  .jd summary{flex-wrap:wrap;gap:6px 12px}
+  .jd summary::after{position:absolute;right:0}
+  .jd summary{position:relative;padding-right:28px}
+  .jd dl{padding-left:0}
+  .jd-row{grid-template-columns:minmax(0,1fr);gap:2px}
+}
+
+.play{padding-top:36px}
+.play-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;margin-top:18px}
+.play-grid figure,.jd-figs figure{margin:0}
+.play-grid video,.play-grid img,.jd-figs img{width:100%;height:auto;display:block;border:2px solid var(--text);background:#0b0d14}
+.play-grid figcaption,.jd-figs figcaption{font-size:13.5px;color:var(--n700);margin-top:8px;line-height:1.5}
+.jd-figs{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:20px;align-items:start;padding:4px 0 24px 38px}
+@media (max-width:900px){.play-grid,.jd-figs{grid-template-columns:minmax(0,1fr)}.jd-figs{padding-left:0}}
+
 .contact{background:var(--accent);padding:72px var(--pad);scroll-margin-top:70px}
 .contact h2{font-size:52px;line-height:1.1;letter-spacing:-.03em;font-weight:700;color:#fff;text-wrap:pretty}
 .contact-row{display:flex;gap:44px;flex-wrap:wrap;margin-top:38px}
