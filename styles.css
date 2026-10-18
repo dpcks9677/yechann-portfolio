@@ -293,6 +293,33 @@ a.work-item:hover .wt{color:var(--accent)}
 .jd-figs{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:20px;align-items:start;padding:4px 0 24px 38px}
 @media (max-width:900px){.play-grid,.jd-figs{grid-template-columns:minmax(0,1fr)}.jd-figs{padding-left:0}}
 
+.proj-hero.has-bg{position:relative;background-color:#12141c;background-position:center;background-size:cover;background-repeat:no-repeat;color:#efe8d4;border-bottom-color:var(--text)}
+.proj-hero.has-bg::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(14,15,22,.92) 0%,rgba(14,15,22,.72) 55%,rgba(14,15,22,.35) 100%)}
+.proj-hero.has-bg>*{position:relative}
+.proj-hero.has-bg .kicker{color:#ffc319}
+.proj-hero.has-bg p{color:#d9d3c2}
+.proj-hero.has-bg .tag-role{border-color:#ff7a5c;color:#ffd2c7}
+.proj-hero.has-bg .btn{border-color:#efe8d4;color:#efe8d4}
+.proj-hero.has-bg .btn:hover{background:#efe8d4;color:#12141c}
+.proj-hero.has-bg .btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.proj-hero.has-bg .btn-primary:hover{background:var(--accent-600);border-color:var(--accent-600);color:#fff}
+.play-trailer{margin-top:18px;max-width:960px}
+.play-trailer video{width:100%;height:auto;display:block;border:2px solid var(--text);background:#0b0d14}
+.play-trailer .meta{margin-top:8px}
+.play-grid video{aspect-ratio:16/9;object-fit:contain}
+
+.play-trailer .yt{position:relative;aspect-ratio:16/9;border:2px solid var(--text);background:#0b0d14}
+.play-trailer .yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.team-wrap{margin-top:24px;overflow-x:auto;border-top:2px solid var(--divider)}
+.team-table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.65;min-width:640px}
+.team-table th{text-align:left;font-size:13px;font-weight:700;color:var(--n700);padding:12px 14px;border-bottom:1px solid var(--n300);background:var(--n200)}
+.team-table td{vertical-align:top;padding:16px 14px;border-bottom:1px solid var(--n300);color:var(--n900)}
+.team-table td:first-child{white-space:nowrap;width:90px}
+.team-table td:nth-child(2){width:210px;color:var(--n800)}
+.team-table ul{margin:0;padding-left:18px}
+.team-table li{list-style:disc;margin:2px 0}
+.team-table tr.me td{background:#fff6f3}
+
 .contact{background:var(--accent);padding:72px var(--pad);scroll-margin-top:70px}
 .contact h2{font-size:52px;line-height:1.1;letter-spacing:-.03em;font-weight:700;color:#fff;text-wrap:pretty}
 .contact-row{display:flex;gap:44px;flex-wrap:wrap;margin-top:38px}

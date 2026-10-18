@@ -109,6 +109,9 @@ def build(P):
         "{{TITLE}}": P["title"], "{{KICKER}}": P["kicker"], "{{DESC}}": P["desc"], "{{OG}}": P["og"],
         "{{HERO}}": P["hero"], "{{ROLES}}": tags(P["roles"]), "{{BUTTONS}}": btns, "{{PLAY}}": P["play"],
         "{{CELLS}}": cells,
+        "{{AFTER_CELLS}}": P.get("after_cells", ""),
+        "{{HERO_CLASS}}": " has-bg" if P.get("hero_bg") else "",
+        "{{HERO_STYLE}}": f' style="background-image:url({P["hero_bg"]})"' if P.get("hero_bg") else "",
         "{{FEATURED_N}}": f"{len(feats)}건", "{{KEY_LEAD}}": P["key_lead"], "{{ALL_LEAD}}": P["all_lead"],
         "{{FEATURED}}": featured, "{{REST}}": rest, "{{REST_COUNT}}": str(len(items) - len(feats)),
         "{{PRETENDARD}}": PRETENDARD,
@@ -141,7 +144,7 @@ TEMPLATE = """<!DOCTYPE html>
   <nav class="nav-links"><a href="../../index.html#work">← Work</a><a href="#key">핵심 판단</a><a href="#all">전체 기록</a></nav>
 </header>
 
-<section class="hero proj-hero">
+<section class="hero proj-hero{{HERO_CLASS}}"{{HERO_STYLE}}>
   <div class="kicker">{{KICKER}}</div>
   <h1>{{TITLE}}</h1>
   <p>{{HERO}}</p>
@@ -156,6 +159,8 @@ TEMPLATE = """<!DOCTYPE html>
     {{CELLS}}
   </div>
 </section>
+
+{{AFTER_CELLS}}
 
 <section class="section" id="key">
   <div class="kicker">KEY DECISIONS</div>

@@ -13,24 +13,43 @@ PROJECTS = [
         "og": "PM · 전체 기획 · 레벨 디자인. 판단 14건과 그 한계를 기록했습니다.",
         "hero": "2D 탑다운 익스트랙션 슈터. 던전에 들어가 파밍하고, 주기적으로 몰려오는 습격을 쓸어버리며, 제한 시간 안에 탈출하는 게임입니다. 4인 팀에서 PM과 전체 기획을 맡았습니다.",
         "roles": ["PM", "전체 기획 (GDD)", "레벨 디자인", "컷씬 · 퀘스트", "BGM 기획 · 사운드 디렉팅", "서브 프로그래밍"],
-        "buttons": [("primary", "#key", "핵심 판단 보기"), ("", "https://github.com/dpcks9677/shotgun-and-run", "GitHub (공개용)")],
-        "play": """<section class="section play">
-  <div class="kicker">PLAY</div>
+        "buttons": [("primary", "https://www.youtube.com/watch?v=wpbb_FIQQbo", "트레일러 ▶"), ("", "#key", "핵심 판단 보기"), ("", "https://github.com/dpcks9677/shotgun-and-run", "GitHub (공개용)")],
+        "play": """<section class="section play" id="trailer">
+  <div class="kicker">TRAILER</div>
+  <div class="play-trailer">
+    <div class="yt"><iframe src="https://www.youtube-nocookie.com/embed/wpbb_FIQQbo" title="샷건 앤 런 트레일러 | Shotgun and run Trailer" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+    <p class="meta">플레이 트레일러 · 약 1분 · <a class="link" href="https://www.youtube.com/watch?v=wpbb_FIQQbo" target="_blank" rel="noopener">YouTube에서 보기 ↗</a></p>
+  </div>
+  <div class="kicker" style="margin-top:36px">GAME FEEL</div>
   <div class="play-grid">
     <figure>
-      <video src="../../images/shotgun-and-run/combat.mp4" poster="../../images/shotgun-and-run/combat.webp" autoplay muted loop playsinline preload="metadata" aria-label="교전 중 샷건 사격 영상"></video>
-      <figcaption>교전 · 샷건 사격으로 적 처치</figcaption>
+      <video src="../../images/shotgun-and-run/feel-hit.mp4" poster="../../images/shotgun-and-run/feel-hit.webp" autoplay muted loop playsinline preload="metadata" aria-label="사격과 피격 연출 영상"></video>
+      <figcaption>사격 · 피격 연출 · 총구 섬광, 탄 궤적, 피 이펙트</figcaption>
     </figure>
     <figure>
-      <img src="../../images/shotgun-and-run/indicator.webp" alt="사격 인디케이터 조준 호 표시" loading="lazy" decoding="async">
-      <figcaption>사격 인디케이터 · 조준 호 표시</figcaption>
+      <video src="../../images/shotgun-and-run/feel-vignette.mp4" poster="../../images/shotgun-and-run/feel-vignette.webp" autoplay muted loop playsinline preload="metadata" aria-label="저체력 비네팅과 폭탄 경고 연출 영상"></video>
+      <figcaption>저체력 비네팅 · 폭탄 경고 연출</figcaption>
     </figure>
   </div>
 </section>""",
+        "hero_bg": "../../images/shotgun-and-run/hero-bg.webp",
         "cells": [
             ("프로젝트", "Unity 6 (6000.3.22f1) · 팀 &ldquo;4번타자&rdquo; · 약 4주. 핵심 루프는 출격 → 파밍·전투 → 탈출입니다. 마감 안에 루프를 완성하기 위해 보스는 10/10에 범위에서 제외했습니다 (판단 01)."),
-            ("팀", "<b>김예찬</b> 기획 · PM · 서브 프로그래밍<br>김민석 플레이어 프로그래머<br>정성훈 전투 · 적 AI 프로그래머<br>김호준 UI · 쉘터 프로그래머"),
+            ("개발 환경", "Unity 6000.3.22f1 · C# · URP · New Input System · 2D Tilemap · uGUI &amp; TextMesh Pro<br>협업: GitHub, Notion, Discord, Slack · 배포: Windows Standalone (GitHub Releases)"),
         ],
+        "after_cells": """<section class="section" id="team">
+  <div class="kicker">TEAM · 4번타자</div>
+  <h2 class="title-sm">팀원별 담당 역할과 주요 작업</h2>
+  <div class="team-wrap"><table class="team-table">
+    <thead><tr><th>이름</th><th>담당 역할</th><th>주요 작업</th></tr></thead>
+    <tbody>
+      <tr class="me"><td><b>김예찬</b></td><td>👑 PM<br>🎨 그래픽/사운드 디자인<br>💻 서브 프로그래머</td><td><ul><li>전체 게임 기획(GDD)</li><li>던전 대형 맵 레벨 디자인</li><li>컷씬 &amp; 퀘스트 시스템 구축</li><li>BGM 전곡 작곡/사운드 디렉팅</li><li>전역/동적 Light2D 배치</li><li>오디오 믹서 구축</li></ul></td></tr>
+      <tr><td><b>김민석</b></td><td>💻 플레이어 프로그래머</td><td><ul><li>플레이어 조작·이동·대시 기능</li><li>샷건 조준 및 사격과 탄환 오브젝트 풀링</li><li>조준·집탄률 인디케이터 기능</li><li>파츠 데이터 설계 및 업그레이드 기능</li><li>소모품 데이터 설계 및 사용 기능</li><li>전투 게임필 (카메라 쉐이킹, 히트 스탑, 사운드, VFX) 구현</li><li>QA 종합 및 피드백</li></ul></td></tr>
+      <tr><td><b>정성훈</b></td><td>💻 전투 프로그래머</td><td><ul><li>Enemy 6종 구현</li><li>유한 상태 머신(FSM) 기반 Enemy 행동 관리 구현</li><li>A* 및 LOS(Line Of Sight: 직선 상 장애물 판별): 기반 길찾기 내비게이션</li><li>스포너(Standard, Raid, Destruction) 및 난이도 청크 시스템 구현</li></ul></td></tr>
+      <tr><td><b>김호준</b></td><td>💻 프로그래머<br>🎨 UI 디자이너</td><td><ul><li>인게임 HUD(체력, 대시, 탄창, 타이머, 퀵슬롯) 구현</li><li>쉘터 시스템(창고, 무기 강화, 소모품 제작, 레벨업)</li><li>런 결과창 구현</li><li>실시간 미니맵 구현</li></ul></td></tr>
+    </tbody>
+  </table></div>
+</section>""",
         "featured": [2, 3, 9, 11],
         "key_lead": "시간 제한, 추격 구조, 맵 구조, 업무 분배. 각 항목은 상황 → 결정 → 이유 → 한계 순서입니다.",
         "all_lead": "보스 제외, 이동 속도와 맵, 퀘스트 구조, 카메라, QA, 아머, BGM, 컷씬 저장, 매니저 분리. 개발 쪽 판단은 13, 14번입니다.",
